@@ -1,0 +1,9 @@
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\bin\Debug\ChromaGestureMagic.exe.config
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\ChromaGestureMagic.csprojResolveAssemblyReference.cache
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\MainWindow.baml
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\MainWindow.g.cs
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\App.g.cs
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\ChromaGestureMagic_MarkupCompile.cache
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\ChromaGestureMagic.g.resources
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\ChromaGestureMagic.Properties.Resources.resources
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\ChromaGestureMagic\obj\Debug\ChromaGestureMagic.csproj.GenerateResource.Cache

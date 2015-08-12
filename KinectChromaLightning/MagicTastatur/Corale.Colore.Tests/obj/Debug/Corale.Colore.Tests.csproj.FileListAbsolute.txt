@@ -1,0 +1,10 @@
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\Corale.Colore.Tests.dll
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\Corale.Colore.Tests.pdb
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\Corale.Colore.dll
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\nunit.framework.dll
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\Corale.Colore.pdb
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\Corale.Colore.xml
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\bin\Debug\nunit.framework.xml
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\obj\Debug\Corale.Colore.Tests.csprojResolveAssemblyReference.cache
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\obj\Debug\Corale.Colore.Tests.dll
+D:\Repositories\MagicTastatur\Corale.Colore.Tests\obj\Debug\Corale.Colore.Tests.pdb

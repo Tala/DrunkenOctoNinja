@@ -1,0 +1,6 @@
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\MagicTastatur\Corale.Colore\bin\Debug\Corale.Colore.xml
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\MagicTastatur\Corale.Colore\bin\Debug\Corale.Colore.dll
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\MagicTastatur\Corale.Colore\bin\Debug\Corale.Colore.pdb
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\MagicTastatur\Corale.Colore\obj\Debug\ChromaColore.csprojResolveAssemblyReference.cache
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\MagicTastatur\Corale.Colore\obj\Debug\Corale.Colore.dll
+D:\Repositories\DrunkenOctoNinja\KinectChromaLightning\MagicTastatur\Corale.Colore\obj\Debug\Corale.Colore.pdb
