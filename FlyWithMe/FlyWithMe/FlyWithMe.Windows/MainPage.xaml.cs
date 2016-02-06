@@ -35,8 +35,7 @@ namespace FlyWithMe
         private async void Stuff()
         {
             var device = new Device();
-            await device.Initialize();
-            await device.Connect();
+            device.Connect();
 
             //DeviceInformation device = null;
             //var serviceGuid = ParrotUuids.Service_C00;
