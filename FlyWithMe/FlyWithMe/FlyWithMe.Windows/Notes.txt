@@ -1,0 +1,70 @@
+﻿----------------- controller 2 device -----------------
+/* Non-acknowledged commands. */
+{
+    .ID = ROLLINGSPIDER_CONTROLLER_TO_DEVICE_NONACK_ID,
+    .dataType = ARNETWORKAL_FRAME_TYPE_DATA,
+    .sendingWaitTimeMs = 20,
+    .ackTimeoutMs = ARNETWORK_IOBUFFERPARAM_INFINITE_NUMBER,
+    .numberOfRetry = ARNETWORK_IOBUFFERPARAM_INFINITE_NUMBER,
+    .numberOfCell = 1,
+    .dataCopyMaxSize = ARNETWORK_IOBUFFERPARAM_DATACOPYMAXSIZE_USE_MAX,
+    .isOverwriting = 1,
+},
+/* Acknowledged commands. */
+{
+    .ID = ROLLINGSPIDER_CONTROLLER_TO_DEVICE_ACK_ID,
+    .dataType = ARNETWORKAL_FRAME_TYPE_DATA_WITH_ACK,
+    .sendingWaitTimeMs = 20,
+    .ackTimeoutMs = 500,
+    .numberOfRetry = 3,
+    .numberOfCell = 20,
+    .dataCopyMaxSize = ARNETWORK_IOBUFFERPARAM_DATACOPYMAXSIZE_USE_MAX,
+    .isOverwriting = 0,
+},
+/* Emergency commands. */
+{
+    .ID = ROLLINGSPIDER_CONTROLLER_TO_DEVICE_EMERGENCY_ID,
+    .dataType = ARNETWORKAL_FRAME_TYPE_DATA_WITH_ACK,
+    .sendingWaitTimeMs = 1,
+    .ackTimeoutMs = 100,
+    .numberOfRetry = ARNETWORK_IOBUFFERPARAM_INFINITE_NUMBER,
+    .numberOfCell = 1,
+    .dataCopyMaxSize = ARNETWORK_IOBUFFERPARAM_DATACOPYMAXSIZE_USE_MAX,
+    .isOverwriting = 0,
+}
+
+==================== device 2 controler =====================
+{
+    .ID = ROLLINGSPIDER_DEVICE_TO_CONTROLLER_NAVDATA_ID,
+    .dataType = ARNETWORKAL_FRAME_TYPE_DATA,
+    .sendingWaitTimeMs = 20,
+    .ackTimeoutMs = ARNETWORK_IOBUFFERPARAM_INFINITE_NUMBER,
+    .numberOfRetry = ARNETWORK_IOBUFFERPARAM_INFINITE_NUMBER,
+    .numberOfCell = 20,
+    .dataCopyMaxSize = ARNETWORK_IOBUFFERPARAM_DATACOPYMAXSIZE_USE_MAX,
+    .isOverwriting = 0,
+},
+{
+    .ID = ROLLINGSPIDER_DEVICE_TO_CONTROLLER_EVENT_ID,
+    .dataType = ARNETWORKAL_FRAME_TYPE_DATA_WITH_ACK,
+    .sendingWaitTimeMs = 20,
+    .ackTimeoutMs = 500,
+    .numberOfRetry = 3,
+    .numberOfCell = 20,
+    .dataCopyMaxSize = ARNETWORK_IOBUFFERPARAM_DATACOPYMAXSIZE_USE_MAX,
+    .isOverwriting = 0,
+},
+
+
+/** Unknown type. Don't use */
+ARNETWORKAL_FRAME_TYPE_UNINITIALIZED (0, "Unknown type. Don't use"),
+/** Acknowledgment type. Internal use only */
+ARNETWORKAL_FRAME_TYPE_ACK (1, "Acknowledgment type. Internal use only"),
+/** Data type. Main type for data that does not require an acknowledge */
+ARNETWORKAL_FRAME_TYPE_DATA (2, "Data type. Main type for data that does not require an acknowledge"),
+/** Low latency data type. Should only be used when needed */
+ARNETWORKAL_FRAME_TYPE_DATA_LOW_LATENCY (3, "Low latency data type. Should only be used when needed"),
+/** Data that should have an acknowledge type. This type can have a long latency */
+ARNETWORKAL_FRAME_TYPE_DATA_WITH_ACK (4, "Data that should have an acknowledge type. This type can have a long latency"),
+/** Unused, iterator maximum value */
+ARNETWORKAL_FRAME_TYPE_MAX (5, "Unused, iterator maximum value");
