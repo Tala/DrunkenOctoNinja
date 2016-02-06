@@ -2,6 +2,15 @@
 
 namespace FlyWithMe
 {
+    public static class DroneIds
+    {
+        // """ BLE Devices """
+        public static string Rolling_Spider = "0900";
+        public static string Airborne_Night = "0907";
+        public static string Airborne_Cargo = "0909";
+        public static string Hydrofoil = "090a";
+    }
+
     public enum CommandId
     {
         Ack,

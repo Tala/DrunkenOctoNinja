@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,11 +35,11 @@ namespace FlyWithMe
         private async void Stuff()
         {
             DeviceInformation device = null;
-            var serviceGuid = new Guid("9a66fa00-0800-9191-11e4-012d1540cb8e");
+            var serviceGuid = ParrotUuids.Service_C00;
 
             //Find the devices that expose the service  
             var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(serviceGuid));
-            //var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.GenericAccess));
+            //var devices = await DeviceInformations.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.GenericAccess));
 
             if (devices.Count == 0)
                 return;
@@ -54,20 +56,26 @@ namespace FlyWithMe
             //    return;
 
             //Obtain the characteristic we want to interact with
-            var characteristic = service.GetCharacteristics(ParrotUuids.Characteristic_A01)[0];
-            //Read the value  
-            var deviceNameBytes = (await characteristic.ReadValueAsync()).Value.ToArray();
-            //Convert to string  
-            var deviceName = Encoding.UTF8.GetString(deviceNameBytes, 0, deviceNameBytes.Length);
+            //var characteristic = service.GetCharacteristics(ParrotUuids.Characteristic_A01)[0];
+            ////Read the value  
+            //var deviceNameBytes = (await characteristic.ReadValueAsync()).Value.ToArray();
+            ////Convert to string  
+            //var deviceName = Encoding.UTF8.GetString(deviceNameBytes, 0, deviceNameBytes.Length);
 
-            ////Get the accelerometer data characteristic  
-            //var accData = accService.GetCharacteristics(new Guid("9a66fd51-0800-9191-11e4-012d1540cb8e"))[0];
-            ////Subcribe value changed  
+            //Get the accelerometer data characteristic  
+            var serveces = service.GetIncludedServices(ParrotUuids.Characteristic_B01);
+            var ids = serveces.Select(gattDeviceService => gattDeviceService.Uuid.ToString()).ToList();
+
+
+            var accData1 = service.GetCharacteristics(ParrotUuids.Characteristic_C1)[0];
+            
+
+            //Subcribe value changed  
             //accData.ValueChanged += accData_ValueChanged;
-            ////Set configuration to notify  
+            //Set configuration to notify  
             //await accData.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
             ////Get the accelerometer configuration characteristic  
-            //var accConfig = accService.GetCharacteristics(new Guid("9a66fd21-0800-9191-11e4-012d1540cb8e"))[0];
+            //var accConfig = service.GetCharacteristics(new Guid("9a66fd21-0800-9191-11e4-012d1540cb8e"))[0];
             ////Write 1 to start accelerometer sensor  
             //await accConfig.WriteValueAsync(new byte[] { 1 }.AsBuffer());
         }

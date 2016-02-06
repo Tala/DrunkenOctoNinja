@@ -16,7 +16,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BLE_TrialCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Connection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Device.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Discovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DroneCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NetworkAL.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ParrotUuids.cs" />
   </ItemGroup>
 </Project>
