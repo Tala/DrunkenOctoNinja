@@ -19,6 +19,9 @@ namespace FlyWithMe
         Event
     }
 
+    /// <summary>
+    /// Reimplementation of Parrot API Command-Class
+    /// </summary>
     public class DroneCommand
     {
         public CommandId Id { get; private set; }

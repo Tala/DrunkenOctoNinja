@@ -7,7 +7,7 @@ namespace FlyWithMe
         /// <summary>
         /// "Controller to Device non-ack" aka write only
         /// Uses:
-        /// A01, Stop, PowerMotors, DateTime, EmergencyStop, InitCount1To20ic, A1F
+        /// A01, Stop, Movement, TakeOffAndLand, EmergencyStop, InitCount1To20ic, A1F
         /// </summary>
         public static Guid Service_A00 = new Guid("9a66fa00-0800-9191-11e4-012d1540cb8e");
 
@@ -45,8 +45,8 @@ namespace FlyWithMe
 
         public static Guid Characteristic_A01 = new Guid("9a66fa01-0800-9191-11e4-012d1540cb8e"); 
         public static Guid Characteristic_Stop = new Guid("9a66fa02-0800-9191-11e4-012d1540cb8e"); 
-        public static Guid Characteristic_PowerMotors = new Guid("9a66fa0a-0800-9191-11e4-012d1540cb8e"); 
-        public static Guid Characteristic_DateTime = new Guid("9a66fa0b-0800-9191-11e4-012d1540cb8e"); 
+        public static Guid Characteristic_Movement = new Guid("9a66fa0a-0800-9191-11e4-012d1540cb8e"); 
+        public static Guid Characteristic_TakeOffAndLand = new Guid("9a66fa0b-0800-9191-11e4-012d1540cb8e"); 
         public static Guid Characteristic_EmergencyStop	= new Guid("9a66fa0c-0800-9191-11e4-012d1540cb8e"); 
         public static Guid Characteristic_InitCount1To20 = new Guid("9a66fa1e-0800-9191-11e4-012d1540cb8e");
         public static Guid Characteristic_A1F = new Guid("9a66fa1f-0800-9191-11e4-012d1540cb8e");

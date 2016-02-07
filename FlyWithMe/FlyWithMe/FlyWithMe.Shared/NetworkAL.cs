@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
-using System.Threading.Tasks;
 
 namespace FlyWithMe
 {
@@ -15,7 +15,7 @@ namespace FlyWithMe
     {
         public List<DeviceInformation> DeviceInformations { get; set; }
 
-        public List<GattDeviceService> DeviceServices { get; private set; }
+        public List<GattDeviceService> DeviceServices { get; }
 
         public Dictionary<string, List<GattCharacteristic>> Characteristics { get; }
 
@@ -29,17 +29,29 @@ namespace FlyWithMe
 
         public void Start()
         {
-            
+            RegisterEventhandling(ParrotUuids.Service_D21);
+            RegisterEventhandling(ParrotUuids.Service_D51);
         }
 
         public void Stop()
         {
-            
+            DeregisterEventhandling(ParrotUuids.Service_D21);
+            DeregisterEventhandling(ParrotUuids.Service_D51);
         }
 
-        public void SendData()
+        public void SendData(Guid servieGuid, Guid characteristicGuid, object data)
         {
-            
+            // get list of characteristics by serviceGuid
+            var characteristicList = Characteristics[servieGuid.ToString()];
+            // get characteristic
+            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == characteristicGuid);
+            // write value async
+            Task.WaitAll(new Task(async () =>
+            {
+                // maybe add writing of descriptions before writing of values?
+                // TODO Send correct data
+                await characteristic.WriteValueAsync(new byte[] {1}.AsBuffer());
+            }));
         }
 
         public void ReadData()
@@ -73,8 +85,8 @@ namespace FlyWithMe
             // register characteristics A00
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A01);
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Stop);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_PowerMotors);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_DateTime);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand);
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop);
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_InitCount1To20);
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A1F);
@@ -94,13 +106,12 @@ namespace FlyWithMe
             RegisterCharacteristic(ParrotUuids.Service_D21, ParrotUuids.Characteristic_D22);
             RegisterCharacteristic(ParrotUuids.Service_D21, ParrotUuids.Characteristic_D23);
             RegisterCharacteristic(ParrotUuids.Service_D21, ParrotUuids.Characteristic_D24);
-            RegisterEventhandling(ParrotUuids.Service_D21);
-
+            
             // register characteristics D51
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D52);
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D53);
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D54);
-            RegisterEventhandling(ParrotUuids.Service_D51);
+            
         }
 
         private void RegisterEventhandling(Guid serviceUuid)
@@ -109,6 +120,16 @@ namespace FlyWithMe
             foreach (var characteristic in charachteristics)
             {
                 characteristic.ValueChanged += Characteristic_ValueChanged;
+            }
+
+        }
+
+        private void DeregisterEventhandling(Guid serviceUuid)
+        {
+            var charachteristics = Characteristics[serviceUuid.ToString()];
+            foreach (var characteristic in charachteristics)
+            {
+                characteristic.ValueChanged -= Characteristic_ValueChanged;
             }
 
         }
@@ -129,6 +150,5 @@ namespace FlyWithMe
             }
             Characteristics[service_uuid.ToString()].Add(accData);
         }
-
     }
 }

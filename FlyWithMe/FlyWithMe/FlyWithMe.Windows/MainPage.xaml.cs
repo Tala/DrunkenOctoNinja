@@ -73,14 +73,14 @@ namespace FlyWithMe
             //var accData1 = service.GetCharacteristics(ParrotUuids.Characteristic_C1)[0];
 
 
-            ////Subcribe value changed  
-            ////accData.ValueChanged += accData_ValueChanged;
-            ////Set configuration to notify  
-            ////await accData.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-            //////Get the accelerometer configuration characteristic  
-            ////var accConfig = service.GetCharacteristics(new Guid("9a66fd21-0800-9191-11e4-012d1540cb8e"))[0];
-            //////Write 1 to start accelerometer sensor  
-            ////await accConfig.WriteValueAsync(new byte[] { 1 }.AsBuffer());
+            //Subcribe value changed  
+            //accData.ValueChanged += accData_ValueChanged;
+            //Set configuration to notify  
+            //await accData.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+            ////Get the accelerometer configuration characteristic  
+            //var accConfig = service.GetCharacteristics(new Guid("9a66fd21-0800-9191-11e4-012d1540cb8e"))[0];
+            ////Write 1 to start accelerometer sensor  
+            //await accConfig.WriteValueAsync(new byte[] { 1 }.AsBuffer());
         }
 
         async void accData_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
