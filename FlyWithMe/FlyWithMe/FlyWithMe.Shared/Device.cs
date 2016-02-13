@@ -16,11 +16,13 @@ namespace FlyWithMe
         public string ProductId { get; }
         public string Name { get; }
 
+        public NetworkAl Network { get; set; }
         
 
-        public Device()
+        public async Task Initialize()
         {
-                    
+            Network = new NetworkAl();
+            await Network.Initialize();
         }
 
         public void Connect()
@@ -46,5 +48,34 @@ namespace FlyWithMe
         {
         }
 
+        internal void Forward()
+        {
+            throw new NotImplementedException();
         }
+
+        internal void Backward()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Left()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Right()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Up()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Down()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

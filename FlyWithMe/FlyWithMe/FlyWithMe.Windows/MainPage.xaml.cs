@@ -19,6 +19,9 @@ namespace FlyWithMe
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private NetworkAl network;
+        private Device drone;
+
         public MainPage()
         {
             InitializeComponent();
@@ -28,87 +31,82 @@ namespace FlyWithMe
 
         private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            CoreWindow.GetForCurrentThread().KeyDown += MyPage_KeyDown;
             this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Stuff());
 
         }
 
+        private void MyPage_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            switch (args.VirtualKey)
+            {
+                case Windows.System.VirtualKey.W:
+                    {
+                        drone.Forward();
+                        break;
+                    }
+                case Windows.System.VirtualKey.S:
+                    {
+                        drone.Backward();
+                        break;
+                    }
+                case Windows.System.VirtualKey.A:
+                    {
+                        drone.Left();
+                        break;
+                    }
+                case Windows.System.VirtualKey.D:
+                    {
+                        drone.Right();
+                        break;
+                    }
+                case Windows.System.VirtualKey.Space:
+                    {
+                        drone.Up();
+                        break;
+                    }
+                case Windows.System.VirtualKey.X:
+                    {
+                        drone.Down();
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            
+        }
+
         private async void Stuff()
         {
-            var device = new Device();
-            device.Connect();
+            drone = new Device();
+            await drone.Initialize();
+        }
 
-            //DeviceInformation device = null;
-            //var serviceGuid = ParrotUuids.Service_C00;
+        private async void TakeOffButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, Commands.TakeOff);
+        }
 
-            ////Find the devices that expose the service  
-            //var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(serviceGuid));
-            ////var devices = await DeviceInformations.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.GenericAccess));
+        private async void LandingButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, Commands.Landing);
+        }
 
-            //if (devices.Count == 0)
-            //    return;
+        private async void Emergency_OnClick(object sender, RoutedEventArgs e)
+        {
+            network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop, Commands.EmergencyShutdown);
+        }
 
-            //foreach (var di in devices)
+        private async void Connect_OnClick(object sender, RoutedEventArgs e)
+        {
+            //Task.WaitAll(new Task(async () =>
             //{
-            //    lstDevices.Items.Add(new MyBluetoothLEDevice(di));
-            //    device = di;
-            //}
-
-            ////Connect to the service  
-            //var service = await GattDeviceService.FromIdAsync(device.Id);
-            ////if (service == null)
-            ////    return;
-
-            ////Obtain the characteristic we want to interact with
-            ////var characteristic = service.GetCharacteristics(ParrotUuids.Characteristic_A01)[0];
-            //////Read the value  
-            ////var deviceNameBytes = (await characteristic.ReadValueAsync()).Value.ToArray();
-            //////Convert to string  
-            ////var deviceName = Encoding.UTF8.GetString(deviceNameBytes, 0, deviceNameBytes.Length);
-
-            ////Get the accelerometer data characteristic  
-            //var serveces = service.GetIncludedServices(ParrotUuids.Characteristic_B01);
-            //var ids = serveces.Select(gattDeviceService => gattDeviceService.Uuid.ToString()).ToList();
-
-
-            //var accData1 = service.GetCharacteristics(ParrotUuids.Characteristic_C1)[0];
-
-
-            //Subcribe value changed  
-            //accData.ValueChanged += accData_ValueChanged;
-            //Set configuration to notify  
-            //await accData.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-            ////Get the accelerometer configuration characteristic  
-            //var accConfig = service.GetCharacteristics(new Guid("9a66fd21-0800-9191-11e4-012d1540cb8e"))[0];
-            ////Write 1 to start accelerometer sensor  
-            //await accConfig.WriteValueAsync(new byte[] { 1 }.AsBuffer());
+                await network.Connect();
+                await network.Start();
+            //}));
+            
         }
-
-        async void accData_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
-        {
-            var values = (await sender.ReadValueAsync()).Value.ToArray();
-            var x = values[0];
-            var y = values[1];
-            var z = values[2];
-        }
-
-        #region Nested type: MyBluetoothLEDevice
-
-        public class MyBluetoothLEDevice
-        {
-        public DeviceInformation BluetoothLEDevice { get; }
-
-        public MyBluetoothLEDevice(DeviceInformation gattDeviceService)
-            {
-
-                BluetoothLEDevice = gattDeviceService;
-            }
-
-        public override string ToString()
-            {
-                return string.Format("{0} ({1})", BluetoothLEDevice.Name, BluetoothLEDevice.IsEnabled);
-            }
-        }
-
-        #endregion
     }
 }

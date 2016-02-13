@@ -19,6 +19,8 @@ namespace FlyWithMe
 
         public Dictionary<string, List<GattCharacteristic>> Characteristics { get; }
 
+        public string StateString { get; set; }
+
         public NetworkAl()
         {
             DeviceInformations = new List<DeviceInformation>();
@@ -27,31 +29,45 @@ namespace FlyWithMe
 
         }
 
-        public void Start()
+        public async Task Start()
         {
-            RegisterEventhandling(ParrotUuids.Service_D21);
-            RegisterEventhandling(ParrotUuids.Service_D51);
+            await RegisterEventhandling(ParrotUuids.Service_B00);
+            await RegisterEventhandling(ParrotUuids.Service_D21);
+            await RegisterEventhandling(ParrotUuids.Service_D51);
+
+
+            // get list of characteristics by serviceGuid
+            var characteristicList = Characteristics[ParrotUuids.Service_A00.ToString()];
+            // get characteristic
+            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_InitCount1To20);
+            
+            for (int i =0; i<20; i++)
+            {
+                byte[] value = new byte[3];
+                value[0] = (byte)(0x1);
+                value[1] = (byte)(i + 1);
+                value[2] = (byte)(i + 1);
+                // write value async
+                await characteristic.WriteValueAsync(value.AsBuffer(), GattWriteOption.WriteWithoutResponse);
+            }
+
         }
 
         public void Stop()
         {
+            DeregisterEventhandling(ParrotUuids.Service_B00);
             DeregisterEventhandling(ParrotUuids.Service_D21);
             DeregisterEventhandling(ParrotUuids.Service_D51);
         }
 
-        public void SendData(Guid servieGuid, Guid characteristicGuid, object data)
+        public async void SendData(Guid servieGuid, Guid characteristicGuid, Command data)
         {
             // get list of characteristics by serviceGuid
             var characteristicList = Characteristics[servieGuid.ToString()];
             // get characteristic
             var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == characteristicGuid);
             // write value async
-            Task.WaitAll(new Task(async () =>
-            {
-                // maybe add writing of descriptions before writing of values?
-                // TODO Send correct data
-                await characteristic.WriteValueAsync(new byte[] {1}.AsBuffer());
-            }));
+            await characteristic.WriteValueAsync(data.GetCommandBytes().AsBuffer(), GattWriteOption.WriteWithoutResponse);
         }
 
         public void ReadData()
@@ -114,12 +130,14 @@ namespace FlyWithMe
             
         }
 
-        private void RegisterEventhandling(Guid serviceUuid)
+        private async Task RegisterEventhandling(Guid serviceUuid)
         {
             var charachteristics = Characteristics[serviceUuid.ToString()];
             foreach (var characteristic in charachteristics)
             {
                 characteristic.ValueChanged += Characteristic_ValueChanged;
+                await characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                await Task.Delay(TimeSpan.FromMilliseconds(50));
             }
 
         }
@@ -136,8 +154,7 @@ namespace FlyWithMe
 
         private void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-
-
+            StateString = args.CharacteristicValue.ToString();
         }
 
         private void RegisterCharacteristic(Guid service_uuid, Guid characteristicUuid)
@@ -150,5 +167,52 @@ namespace FlyWithMe
             }
             Characteristics[service_uuid.ToString()].Add(accData);
         }
+
+
+        //DeviceInformation device = null;
+        //var serviceGuid = ParrotUuids.Service_C00;
+
+        ////Find the devices that expose the service  
+        //var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(serviceGuid));
+        ////var devices = await DeviceInformations.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.GenericAccess));
+
+        //if (devices.Count == 0)
+        //    return;
+
+        //foreach (var di in devices)
+        //{
+        //    lstDevices.Items.Add(new MyBluetoothLEDevice(di));
+        //    device = di;
+        //}
+
+        ////Connect to the service  
+        //var service = await GattDeviceService.FromIdAsync(device.Id);
+
+        ////if (service == null)
+        ////    return;
+
+        ////Obtain the characteristic we want to interact with
+        ////var characteristic = service.GetCharacteristics(ParrotUuids.Characteristic_A01)[0];
+        //////Read the value  
+        ////var deviceNameBytes = (await characteristic.ReadValueAsync()).Value.ToArray();
+        //////Convert to string  
+        ////var deviceName = Encoding.UTF8.GetString(deviceNameBytes, 0, deviceNameBytes.Length);
+
+        ////Get the accelerometer data characteristic  
+        //var serveces = service.GetIncludedServices(ParrotUuids.Characteristic_B01);
+        //var ids = serveces.Select(gattDeviceService => gattDeviceService.Uuid.ToString()).ToList();
+
+
+        //var accData1 = service.GetCharacteristics(ParrotUuids.Characteristic_C1)[0];
+
+
+        ////Subcribe value changed  
+        ////accData.ValueChanged += accData_ValueChanged;
+        ////Set configuration to notify  
+        ////await accData.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+        //////Get the accelerometer configuration characteristic  
+        ////var accConfig = service.GetCharacteristics(new Guid("9a66fd21-0800-9191-11e4-012d1540cb8e"))[0];
+        //////Write 1 to start accelerometer sensor  
+        ////await accConfig.WriteValueAsync(new byte[] { 1 }.AsBuffer());
     }
 }

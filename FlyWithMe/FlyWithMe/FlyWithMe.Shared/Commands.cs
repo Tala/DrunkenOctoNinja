@@ -46,6 +46,14 @@ namespace FlyWithMe
             ArgumentValue = argumentValue;
         }
 
+        public byte[] GetCommandBytes()
+        {
+            if (ArgumentValue == null)
+            {
+                return new[] { ProjectId, ClassId, CommandId, ArgumentId };
+            }
+            return new[] { ProjectId, ClassId, CommandId, ArgumentId, (byte) ArgumentValue };
+        }
     }
     
 }
