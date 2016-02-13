@@ -18,13 +18,13 @@ namespace FlyWithMe
 
     public class Command
     {
-        private ushort? argumentValue;
+        private short? argumentValue;
         public byte ProjectId { get; }
         public byte ClassId { get; }
         public byte CommandId { get; }
         public byte ArgumentId { get; }
 
-        public ushort? ArgumentValue
+        public short? ArgumentValue
         {
             get { return argumentValue; }
             set
@@ -37,7 +37,7 @@ namespace FlyWithMe
             }
         }
 
-        public Command(byte classId, byte commandId, byte argumentId, ushort? argumentValue = null, byte projectId = 0x02)
+        public Command(byte classId, byte commandId, byte argumentId, short? argumentValue = null, byte projectId = 0x02)
         {
             ProjectId = projectId;
             ClassId = classId;

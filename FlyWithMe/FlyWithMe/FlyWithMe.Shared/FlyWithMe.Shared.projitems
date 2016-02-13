@@ -17,7 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BLE_TrialCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Device.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Drone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Discovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DroneCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NetworkAL.cs" />

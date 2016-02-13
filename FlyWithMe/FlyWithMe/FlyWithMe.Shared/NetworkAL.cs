@@ -29,31 +29,7 @@ namespace FlyWithMe
 
         }
 
-        public async Task Start()
-        {
-            await RegisterEventhandling(ParrotUuids.Service_B00);
-            await RegisterEventhandling(ParrotUuids.Service_D21);
-            await RegisterEventhandling(ParrotUuids.Service_D51);
-
-
-            // get list of characteristics by serviceGuid
-            var characteristicList = Characteristics[ParrotUuids.Service_A00.ToString()];
-            // get characteristic
-            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_InitCount1To20);
-            
-            for (int i =0; i<20; i++)
-            {
-                byte[] value = new byte[3];
-                value[0] = (byte)(0x1);
-                value[1] = (byte)(i + 1);
-                value[2] = (byte)(i + 1);
-                // write value async
-                await characteristic.WriteValueAsync(value.AsBuffer(), GattWriteOption.WriteWithoutResponse);
-            }
-
-        }
-
-        public void Stop()
+        public void Disconnect()
         {
             DeregisterEventhandling(ParrotUuids.Service_B00);
             DeregisterEventhandling(ParrotUuids.Service_D21);
@@ -127,7 +103,26 @@ namespace FlyWithMe
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D52);
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D53);
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D54);
-            
+
+            await RegisterEventhandling(ParrotUuids.Service_B00);
+            await RegisterEventhandling(ParrotUuids.Service_D21);
+            await RegisterEventhandling(ParrotUuids.Service_D51);
+
+
+            // get list of characteristics by serviceGuid
+            var characteristicList = Characteristics[ParrotUuids.Service_A00.ToString()];
+            // get characteristic
+            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_InitCount1To20);
+
+            for (int i = 0; i < 20; i++)
+            {
+                byte[] value = new byte[3];
+                value[0] = (byte)(0x1);
+                value[1] = (byte)(i + 1);
+                value[2] = (byte)(i + 1);
+                // write value async
+                await characteristic.WriteValueAsync(value.AsBuffer(), GattWriteOption.WriteWithoutResponse);
+            }
         }
 
         private async Task RegisterEventhandling(Guid serviceUuid)

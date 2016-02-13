@@ -20,7 +20,7 @@ namespace FlyWithMe
     public sealed partial class MainPage : Page
     {
         private NetworkAl network;
-        private Device drone;
+        private Drone drone;
 
         public MainPage()
         {
@@ -80,33 +80,28 @@ namespace FlyWithMe
 
         private async void Stuff()
         {
-            drone = new Device();
+            drone = new Drone();
             await drone.Initialize();
         }
 
         private async void TakeOffButton_OnClick(object sender, RoutedEventArgs e)
         {
-            network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, Commands.TakeOff);
+            drone.TakeOff();
         }
 
         private async void LandingButton_OnClick(object sender, RoutedEventArgs e)
         {
-            network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, Commands.Landing);
+            drone.Land();
         }
 
         private async void Emergency_OnClick(object sender, RoutedEventArgs e)
         {
-            network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop, Commands.EmergencyShutdown);
+            drone.EmergencyStop();
         }
 
         private async void Connect_OnClick(object sender, RoutedEventArgs e)
         {
-            //Task.WaitAll(new Task(async () =>
-            //{
-                await network.Connect();
-                await network.Start();
-            //}));
-            
+            await drone.Connect();
         }
     }
 }
