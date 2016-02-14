@@ -50,21 +50,24 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Click="Connect_OnClick" Content="Fowards (W)" Width="120"/>
-                    <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" Click="TakeOffButton_OnClick" Content="Backwards (S)" Width="120"/>
-                    <Button HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Click="LandingButton_OnClick" Content="Left (A)" Width="120"/>
-                    <Button HorizontalAlignment="Center" Grid.Column="2" Grid.Row="1" Click="Emergency_OnClick" Content="Right (D)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Click="Forwards_OnClick" Content="Fowards (W)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" Click="Backwards_OnClick" Content="Backwards (S)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Click="Left_OnClick" Content="Left (A)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="2" Grid.Row="1" Click="Right_OnClick" Content="Right (D)" Width="120"/>
                     <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Button Click="Emergency_OnClick" Content="Up (Space)" Margin="10" Width="120"/>
-                        <Button Click="Emergency_OnClick" Content="Down (X)" Margin="10" Width="120"/>
+                        <Button Click="Up_OnClick" Content="Up (Space)" Margin="10" Width="120"/>
+                        <Button Click="Down_OnClick" Content="Down (X)" Margin="10" Width="120"/>
                     </StackPanel>
                     
                 </Grid>
             </Grid>
             
             <!-- Log-->
-            
+            <TextBox Grid.Row="2" Background="Black" Foreground="White" x:Name="Console"/>
+
+
         </Grid>
+        
 
 
         <!-- Right side -->

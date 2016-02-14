@@ -21,7 +21,7 @@ namespace FlyWithMe
     {
         private NetworkAl network;
         private Drone drone;
-
+        
         public MainPage()
         {
             InitializeComponent();
@@ -36,38 +36,38 @@ namespace FlyWithMe
 
         }
 
-        private void MyPage_KeyDown(CoreWindow sender, KeyEventArgs args)
+        private async void MyPage_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             switch (args.VirtualKey)
             {
                 case Windows.System.VirtualKey.W:
                     {
-                        drone.Forward();
+                        await drone.Forward();
                         break;
                     }
                 case Windows.System.VirtualKey.S:
                     {
-                        drone.Backward();
+                        await drone.Backward();
                         break;
                     }
                 case Windows.System.VirtualKey.A:
                     {
-                        drone.Left();
+                        await drone.Left();
                         break;
                     }
                 case Windows.System.VirtualKey.D:
                     {
-                        drone.Right();
+                        await drone.Right();
                         break;
                     }
                 case Windows.System.VirtualKey.Space:
                     {
-                        drone.Up();
+                        await drone.Up();
                         break;
                     }
                 case Windows.System.VirtualKey.X:
                     {
-                        drone.Down();
+                        await drone.Down();
                         break;
                     }
                 default:
@@ -82,26 +82,66 @@ namespace FlyWithMe
         {
             drone = new Drone();
             await drone.Initialize();
+            drone.Network.SomethingChanged += OnHandle_SomethingChanged;
+            Console.Text += "Drone initialized. \n";
+        }
+
+        private void OnHandle_SomethingChanged(object sender, CustomEventArgs e)
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Console.Text += e.Message + "\n");
+            
         }
 
         private async void TakeOffButton_OnClick(object sender, RoutedEventArgs e)
         {
-            drone.TakeOff();
+            await drone.TakeOff();
+            Console.Text += "Drone takeoff send. \n";
         }
 
         private async void LandingButton_OnClick(object sender, RoutedEventArgs e)
         {
-            drone.Land();
+            await drone.Land();
         }
 
         private async void Emergency_OnClick(object sender, RoutedEventArgs e)
         {
-            drone.EmergencyStop();
+            await drone.EmergencyStop();
         }
 
         private async void Connect_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Connect();
+            Console.Text += "Drone connected. \n";
+        }
+
+        private async void Forwards_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Forward();
+        }
+
+        private async void Backwards_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Backward();
+        }
+
+        private async void Left_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Left();
+        }
+
+        private async void Right_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Right();
+        }
+
+        private async void Up_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Up();
+        }
+
+        private async void Down_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Down();
         }
     }
 }

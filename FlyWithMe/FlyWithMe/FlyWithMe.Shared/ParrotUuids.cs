@@ -46,7 +46,7 @@ namespace FlyWithMe
         public static Guid Characteristic_A01 = new Guid("9a66fa01-0800-9191-11e4-012d1540cb8e"); 
         public static Guid Characteristic_Stop = new Guid("9a66fa02-0800-9191-11e4-012d1540cb8e"); 
         public static Guid Characteristic_Movement = new Guid("9a66fa0a-0800-9191-11e4-012d1540cb8e"); 
-        public static Guid Characteristic_TakeOffAndLand = new Guid("9a66fa0b-0800-9191-11e4-012d1540cb8e"); 
+        public static Guid Characteristic_TakeOffAndLand = new Guid("9a66fa0b-0800-9191-11e4-012d1540cb8e");  // DateTime?
         public static Guid Characteristic_EmergencyStop	= new Guid("9a66fa0c-0800-9191-11e4-012d1540cb8e"); 
         public static Guid Characteristic_InitCount1To20 = new Guid("9a66fa1e-0800-9191-11e4-012d1540cb8e");
         public static Guid Characteristic_A1F = new Guid("9a66fa1f-0800-9191-11e4-012d1540cb8e");

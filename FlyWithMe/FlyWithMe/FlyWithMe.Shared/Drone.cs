@@ -17,10 +17,16 @@ namespace FlyWithMe
         public string Name { get; }
 
         public NetworkAl Network { get; set; }
-        
+        public EventHandler SomethingChanged;
+
+        public int motorCommandsCounter;
+        public int simpleCommandsCounter;
+
 
         public async Task Initialize()
         {
+            motorCommandsCounter = 1;
+            simpleCommandsCounter = 1;
             Network = new NetworkAl();
             await Network.Initialize();
         }
@@ -32,9 +38,9 @@ namespace FlyWithMe
 
 
 
-        public void Disconnect()
+        public async Task Disconnect()
         {
-            Network.Disconnect();
+            await Network.Disconnect();
         }
         
         public void RecieveData()
@@ -45,61 +51,83 @@ namespace FlyWithMe
         {
         }
 
-        internal void Forward()
+        internal async Task Forward()
         {
             var pitch = Commands.Pitch;
+            pitch.CommandCounter = (byte)motorCommandsCounter;
             pitch.ArgumentValue = 20;
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, pitch);
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, pitch);
+            motorCommandsCounter++;
+
         }
 
-        internal void Backward()
+        internal async Task Backward()
         {
             var pitch = Commands.Pitch;
+            pitch.CommandCounter = (byte)motorCommandsCounter;
             pitch.ArgumentValue = -20;
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, pitch);
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, pitch);
+            motorCommandsCounter++;
         }
 
-        internal void Left()
+        internal async Task Left()
         {
             var roll = Commands.Roll;
+            roll.CommandCounter = (byte)motorCommandsCounter;
             roll.ArgumentValue = -20;
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, roll);
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, roll);
+            motorCommandsCounter++;
         }
 
-        internal void Right()
+        internal async Task Right()
         {
             var roll = Commands.Roll;
+            roll.CommandCounter = (byte)motorCommandsCounter;
             roll.ArgumentValue = 20;
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, roll);
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, roll);
+            motorCommandsCounter++;
         }
 
-        internal void Up()
+        internal async Task Up()
         {
             var gaz = Commands.UpDownAkaGaz;
+            gaz.CommandCounter = (byte)motorCommandsCounter;
             gaz.ArgumentValue = 20;
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, gaz);
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, gaz);
+            motorCommandsCounter++;
         }
 
-        internal void Down()
+        internal async Task Down()
         {
             var gaz = Commands.UpDownAkaGaz;
+            gaz.CommandCounter = (byte)motorCommandsCounter;
             gaz.ArgumentValue = -20;
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, gaz);
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement, gaz);
+            motorCommandsCounter++;
         }
 
-        public void TakeOff()
+        public async Task TakeOff()
         {
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, Commands.TakeOff);
+            var command = Commands.TakeOff;
+            command.CommandCounter = (byte)simpleCommandsCounter;
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, command);
+            simpleCommandsCounter++;
         }
 
-        public void Land()
+        public async Task Land()
         {
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, Commands.Landing);
+            var command = Commands.Landing;
+            command.CommandCounter = (byte)simpleCommandsCounter;
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand, command);
+            simpleCommandsCounter++;
         }
 
-        internal void EmergencyStop()
+        internal async Task EmergencyStop()
         {
-            Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop, Commands.EmergencyShutdown);
+            var command = Commands.EmergencyShutdown;
+            command.CommandCounter = (byte)simpleCommandsCounter;
+            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop, command);
+            simpleCommandsCounter++;
         }
     }
 }
