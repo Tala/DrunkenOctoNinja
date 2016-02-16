@@ -156,8 +156,8 @@ namespace FlyWithMe
         {
             var senderData = sender.Uuid;
             var byteArray = args.CharacteristicValue.ToArray();
-           StateString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
-            SomethingChanged?.Invoke(this, new CustomEventArgs(StateString));
+            StateString = byteArray.ToString();
+            SomethingChanged?.Invoke(this, new CustomEventArgs(senderData + ": " + StateString));
         }
 
         private void RegisterCharacteristic(Guid service_uuid, Guid characteristicUuid)

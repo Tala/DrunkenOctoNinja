@@ -83,24 +83,25 @@ namespace FlyWithMe
             drone = new Drone();
             await drone.Initialize();
             drone.Network.SomethingChanged += OnHandle_SomethingChanged;
-            Console.Text += "Drone initialized. \n";
+            Console.Text += string.Format("Drone initialized. \n");
         }
 
         private void OnHandle_SomethingChanged(object sender, CustomEventArgs e)
         {
-            this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Console.Text += e.Message + "\n");
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Console.Text += string.Format(e.Message + "\n"));
             
         }
 
         private async void TakeOffButton_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.TakeOff();
-            Console.Text += "Drone takeoff send. \n";
+            Console.Text += string.Format("Drone takeoff send. \n");
         }
 
         private async void LandingButton_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Land();
+            Console.Text += string.Format("Drone landing send. \n");
         }
 
         private async void Emergency_OnClick(object sender, RoutedEventArgs e)
@@ -111,37 +112,43 @@ namespace FlyWithMe
         private async void Connect_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Connect();
-            Console.Text += "Drone connected. \n";
+            Console.Text += string.Format("Drone connected. \n");
         }
 
         private async void Forwards_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Forward();
+            Console.Text += string.Format("Drone move forwards. \n");
         }
 
         private async void Backwards_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Backward();
+            Console.Text += string.Format("Drone move backwards. \n");
         }
 
         private async void Left_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Left();
+            Console.Text += string.Format("Drone move left. \n");
         }
 
         private async void Right_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Right();
+            Console.Text += string.Format("Drone move right. \n");
         }
 
         private async void Up_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Up();
+            Console.Text += string.Format("Drone move up. \n");
         }
 
         private async void Down_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Down();
+            Console.Text += string.Format("Drone move down. \n");
         }
     }
 }

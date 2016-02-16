@@ -21,12 +21,14 @@ namespace FlyWithMe
 
         public int motorCommandsCounter;
         public int simpleCommandsCounter;
+        public int emergencyCommandsCounter;
 
 
         public async Task Initialize()
         {
             motorCommandsCounter = 1;
             simpleCommandsCounter = 1;
+            emergencyCommandsCounter = 1;
             Network = new NetworkAl();
             await Network.Initialize();
         }
@@ -125,9 +127,9 @@ namespace FlyWithMe
         internal async Task EmergencyStop()
         {
             var command = Commands.EmergencyShutdown;
-            command.CommandCounter = (byte)simpleCommandsCounter;
+            command.CommandCounter = (byte)emergencyCommandsCounter;
             await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop, command);
-            simpleCommandsCounter++;
+            emergencyCommandsCounter++;
         }
     }
 }

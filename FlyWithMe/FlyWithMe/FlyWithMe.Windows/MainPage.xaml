@@ -63,7 +63,7 @@
             </Grid>
             
             <!-- Log-->
-            <TextBox Grid.Row="2" Background="Black" Foreground="White" x:Name="Console"/>
+            <TextBox Grid.Row="2" Background="Black" Foreground="White" x:Name="Console" />
 
 
         </Grid>
