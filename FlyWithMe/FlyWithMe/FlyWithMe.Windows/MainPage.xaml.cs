@@ -82,7 +82,7 @@ namespace FlyWithMe
         {
             drone = new Drone();
             await drone.Initialize();
-            drone.Network.SomethingChanged += OnHandle_SomethingChanged;
+            drone.SomethingChanged += OnHandle_SomethingChanged;
             Console.Text += string.Format("Drone initialized. \n");
         }
 
@@ -107,6 +107,7 @@ namespace FlyWithMe
         private async void Emergency_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.EmergencyStop();
+            Console.Text += string.Format("Drone emergency stop send. \n");
         }
 
         private async void Connect_OnClick(object sender, RoutedEventArgs e)
@@ -133,6 +134,18 @@ namespace FlyWithMe
             Console.Text += string.Format("Drone move left. \n");
         }
 
+        private async void FlipLeft_OnCLick(object sender, RoutedEventArgs e)
+        {
+            await drone.FlipLeft();
+            Console.Text += string.Format("Drone flip left. \n");
+        }
+
+        private async void FlipForward_OnCLick(object sender, RoutedEventArgs e)
+        {
+            await drone.FlipForward();
+            Console.Text += string.Format("Drone flip forward. \n");
+        }
+
         private async void Right_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Right();
@@ -149,6 +162,18 @@ namespace FlyWithMe
         {
             await drone.Down();
             Console.Text += string.Format("Drone move down. \n");
+        }
+
+        private async void Stabilise_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Stabilise();
+            Console.Text += string.Format("Drone stabilise. \n");
+        }
+
+        private async void Hover_OnClick(object sender, RoutedEventArgs e)
+        {
+            await drone.Hover();
+            Console.Text += string.Format("Drone hover. \n");
         }
     }
 }

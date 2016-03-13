@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2014 Parrot SA
     Redistribution and use in source and binary forms, with or without
@@ -95,7 +95,7 @@
             </arg>
             
             <arg name="pitch" type="i8">
-                Pitch consign for the drone [-100;100]
+                Move consign for the drone [-100;100]
             </arg>
             
             <arg name="yaw" type="i8">
@@ -564,7 +564,7 @@
                 roll value (in radian)
             </arg>
             <arg name="pitch" type="float">
-                Pitch value (in radian)
+                Move value (in radian)
             </arg>
             <arg name="yaw" type="float">
                 Yaw value (in radian)

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
     Copyright (C) 2014 Parrot SA
 
@@ -109,7 +109,7 @@
             </arg>
             
             <arg name="pitch" type="i8">
-                Pitch consign for the MiniDrone [-100;100]
+                Move consign for the MiniDrone [-100;100]
             </arg>
             
             <arg name="yaw" type="i8">

@@ -27,14 +27,17 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="3*" />
+                    
                 </Grid.ColumnDefinitions>
 
                 <!-- Buttons für Connection, Take off, Landing, Emergency-->
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Click="Connect_OnClick" Content="Connect" Margin="100,20" Width="120"/>
-                    <Button Click="TakeOffButton_OnClick" Content="TakeOff" Margin="100,20" Width="120"/>
-                    <Button Click="LandingButton_OnClick" Content="Landing" Margin="100,20" Width="120"/>
-                    <Button Click="Emergency_OnClick" Content="Emergency" Margin="100,20" Width="120"/>
+                    <Button Click="Connect_OnClick" Content="Connect" Margin="100,10" Width="120"/>
+                    <Button Click="TakeOffButton_OnClick" Content="TakeOff" Margin="100,10" Width="120"/>
+                    <Button Click="LandingButton_OnClick" Content="Landing" Margin="100,10" Width="120"/>
+                    <Button Click="Emergency_OnClick" Content="Emergency" Margin="100,10" Width="120"/>
+                    <Button Click="Stabilise_OnClick" Content="Stabilise" Margin="100,10" Width="120"/>
+                    <Button Click="Hover_OnClick" Content="Hover" Margin="100,10" Width="120"/>
                 </StackPanel>
                 
                 <!-- Buttons für up, down, left, right, forwards, backwards-->
@@ -58,12 +61,13 @@
                         <Button Click="Up_OnClick" Content="Up (Space)" Margin="10" Width="120"/>
                         <Button Click="Down_OnClick" Content="Down (X)" Margin="10" Width="120"/>
                     </StackPanel>
-                    
+                    <Button HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Click="FlipLeft_OnCLick" Content="Flip Left" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="FlipForward_OnCLick" Content="Flip Forward" Width="120"/>
                 </Grid>
             </Grid>
             
             <!-- Log-->
-            <TextBox Grid.Row="2" Background="Black" Foreground="White" x:Name="Console" />
+            <TextBox Grid.Row="2" Background="Black" Foreground="White" x:Name="Console" TextWrapping="Wrap"/>
 
 
         </Grid>

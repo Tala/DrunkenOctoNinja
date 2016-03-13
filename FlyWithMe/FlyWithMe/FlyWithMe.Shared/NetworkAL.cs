@@ -22,7 +22,7 @@ namespace FlyWithMe
 
         public string StateString { get; set; }
 
-        public EventHandler<CustomEventArgs> SomethingChanged;
+        public EventHandler<GattValueChangedEventArgs> SomethingChanged;
 
         public NetworkAl()
         {
@@ -79,20 +79,20 @@ namespace FlyWithMe
 
             // register characteristics A00
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A01);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Stop);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_Movement);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_TakeOffAndLand);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_EmergencyStop);
-            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_InitCount1To20);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A02);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0A_Movement);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0C_EmergencyStop);
+            RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A1E_InitCount1To20);
             RegisterCharacteristic(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A1F);
 
             // register characteristics B00
             RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B01);
-            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B0Ebc_Bd);
-            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B1Be3_E4);
-            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B1Ce6_E7);
+            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B0E_DroneState);
+            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B1B);
+            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B1C);
             RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B1F);
-            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_Battery_B0Fbf_C0);
+            RegisterCharacteristic(ParrotUuids.Service_B00, ParrotUuids.Characteristic_B0F_Battery);
 
             // register characteristics C00
             RegisterCharacteristic(ParrotUuids.Service_C00, ParrotUuids.Characteristic_C1);
@@ -115,7 +115,7 @@ namespace FlyWithMe
             // get list of characteristics by serviceGuid
             var characteristicList = Characteristics[ParrotUuids.Service_A00.ToString()];
             // get characteristic
-            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_InitCount1To20);
+            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_A1E_InitCount1To20);
 
             for (int i = 0; i < 20; i++)
             {
@@ -154,10 +154,7 @@ namespace FlyWithMe
 
         private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            var senderData = sender.Uuid;
-            var byteArray = args.CharacteristicValue.ToArray();
-            StateString = byteArray.ToString();
-            SomethingChanged?.Invoke(this, new CustomEventArgs(senderData + ": " + StateString));
+            SomethingChanged?.Invoke(sender,args);
         }
 
         private void RegisterCharacteristic(Guid service_uuid, Guid characteristicUuid)
