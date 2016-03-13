@@ -18,6 +18,18 @@ namespace FlyWithMe
         Init
     }
 
+
+    public class Channel
+    {
+        private int _counter = 1;
+
+        public void Increment()
+        {
+            _counter += 1;
+        }
+            
+    }
+
     /// <summary>
     ///     base class for bluetooth drones
     /// </summary>
@@ -26,7 +38,7 @@ namespace FlyWithMe
         public EventHandler<CustomEventArgs> SomethingChanged;
 
         public int motorCommandsCounter;
-        public int simpleCommandsCounter;
+        public Channel simpleCommandsChannel = new Channel();
         public int emergencyCommandsCounter;
         public string ProductId { get; }
         public string Name { get; }
@@ -40,7 +52,6 @@ namespace FlyWithMe
         {
             State = DroneState.Landed;
             motorCommandsCounter = 1;
-            simpleCommandsCounter = 1;
             emergencyCommandsCounter = 1;
             Network = new NetworkAl();
             await Network.Initialize();
@@ -198,7 +209,8 @@ namespace FlyWithMe
             {
                 gaz.CommandCounter = (byte)motorCommandsCounter;
                 await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0A_Movement, gaz);
-                SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(gaz.GetCommandBytes())));
+                var customEventArgs = new CustomEventArgs("Gesendet: " + BitConverter.ToString(gaz.GetCommandBytes()));
+                SomethingChanged?.Invoke(this, customEventArgs);
                 gaz.Steps--;
                 motorCommandsCounter++;
             }
@@ -236,12 +248,15 @@ namespace FlyWithMe
 
             if (senderData == ParrotUuids.Characteristic_B0E_DroneState)
             {
-                if ((byteArray[0] == 4)
-                    && (byteArray[2] == 2)
-                    && (byteArray[3] == 3)
-                    && (byteArray[4] == 1))
+                var incomingDataIsDroneState = (byteArray[0] == 4)
+                        && (byteArray[2] == 2)
+                        && (byteArray[3] == 3)
+                        && (byteArray[4] == 1);
+
+                if (incomingDataIsDroneState)
                 {
-                    switch (byteArray[6])
+                    var receivedDroneState = byteArray[6];
+                    switch (receivedDroneState)
                     {
                         case 0:
                             State = DroneState.Landed;
@@ -265,7 +280,6 @@ namespace FlyWithMe
                             State = DroneState.Rolling;
                             break;
                     }
-
                 }
 
                 SomethingChanged?.Invoke(this, new CustomEventArgs("Drone State: " + State));

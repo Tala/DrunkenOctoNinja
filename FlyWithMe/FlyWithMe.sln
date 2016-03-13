@@ -9,6 +9,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "FlyWithMe.Shared", "FlyWith
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyWithMe.Windows", "FlyWithMe\FlyWithMe.Windows\FlyWithMe.Windows.csproj", "{DFEA77E6-8BBA-488C-8A01-19BB07AC7F0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectStuff", "KinectStuff\KinectStuff.csproj", "{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		FlyWithMe\FlyWithMe.Shared\FlyWithMe.Shared.projitems*{3089111f-9aea-4a8e-8041-7a4e0d42bc60}*SharedItemsImports = 13
@@ -49,6 +51,22 @@ Global
 		{DFEA77E6-8BBA-488C-8A01-19BB07AC7F0F}.Release|x86.ActiveCfg = Release|x86
 		{DFEA77E6-8BBA-488C-8A01-19BB07AC7F0F}.Release|x86.Build.0 = Release|x86
 		{DFEA77E6-8BBA-488C-8A01-19BB07AC7F0F}.Release|x86.Deploy.0 = Release|x86
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|ARM.Build.0 = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|x64.Build.0 = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Debug|x86.Build.0 = Debug|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|ARM.ActiveCfg = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|ARM.Build.0 = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|x64.ActiveCfg = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|x64.Build.0 = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|x86.ActiveCfg = Release|Any CPU
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +74,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3089111F-9AEA-4A8E-8041-7A4E0D42BC60} = {A0A791DA-2174-434E-907D-5D5D111371C2}
 		{DFEA77E6-8BBA-488C-8A01-19BB07AC7F0F} = {A0A791DA-2174-434E-907D-5D5D111371C2}
+		{43DBD692-3E40-40CB-B11E-D02A2EFE4DEA} = {A0A791DA-2174-434E-907D-5D5D111371C2}
 	EndGlobalSection
 EndGlobal

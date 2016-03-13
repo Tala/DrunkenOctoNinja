@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
+using Windows.UI.ViewManagement;
 
 namespace FlyWithMe
 {
@@ -46,7 +48,9 @@ namespace FlyWithMe
             // get characteristic
             var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == characteristicGuid);
             // write value async
-            await characteristic.WriteValueAsync(data.GetCommandBytes().AsBuffer(), GattWriteOption.WriteWithoutResponse);
+            var status = await characteristic.WriteValueAsync(data.GetCommandBytes().AsBuffer(), GattWriteOption.WriteWithoutResponse);
+           
+            Debug.WriteLine(status.ToString());
         }
 
         public void ReadData()

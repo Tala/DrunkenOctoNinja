@@ -95,19 +95,19 @@ namespace FlyWithMe
         private async void TakeOffButton_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.TakeOff();
-            Console.Text += string.Format("Drone takeoff send. \n");
+            Console.Text += string.Format("Drone takeoff sent. \n");
         }
 
         private async void LandingButton_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Land();
-            Console.Text += string.Format("Drone landing send. \n");
+            Console.Text += string.Format("Drone landing sent. \n");
         }
 
         private async void Emergency_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.EmergencyStop();
-            Console.Text += string.Format("Drone emergency stop send. \n");
+            Console.Text += string.Format("Drone emergency stop sent. \n");
         }
 
         private async void Connect_OnClick(object sender, RoutedEventArgs e)
