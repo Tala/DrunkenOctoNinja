@@ -1,39 +1,76 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FlyWithMe
 {
     public static class Commands
     {
-        public static Command TakeOff = new Command(0x04, 0x00, 0x01, 0x00);
-        public static Command Landing = new Command(0x04, 0x00, 0x03, 0x00);
-        public static Command EmergencyShutdown = new Command(0x04, 0x00, 0x04, 0x00);
-        public static Command FlatTrim = new Command(0x02, 0x00, 0x00, 0x00);
+        public static CommandBytes TakeOff = new CommandBytes(0x04, 0x00, 0x01, 0x00);
+        public static CommandBytes Landing = new CommandBytes(0x04, 0x00, 0x03, 0x00);
+        public static CommandBytes EmergencyShutdown = new CommandBytes(0x04, 0x00, 0x04, 0x00);
+        public static CommandBytes FlatTrim = new CommandBytes(0x02, 0x00, 0x00, 0x00);
 
-        public static MoveCommand Up = new MoveCommand(0, 0, 0, 50, 5);
-        public static MoveCommand Down = new MoveCommand(0, 0, 0, -50, 5);
-        public static MoveCommand Forward = new MoveCommand(0, 50, 0, 0, 2);
-        public static MoveCommand Backward = new MoveCommand(0, -50, 0, 0, 2);
-        public static MoveCommand Right = new MoveCommand(50, 0, 0, 0, 2);
-        public static MoveCommand Left = new MoveCommand(-50, 0, 0, 0, 2);
-        public static MoveCommand TurnRight = new MoveCommand(0, 0, 50, 0, 2);
-        public static MoveCommand TurnLeft = new MoveCommand(0, 0, -50, 0, 2);
-        public static MoveCommand Hover = new MoveCommand(0, 0, 0, 0, 1);
+        public static MoveCommandBytes Up = new MoveCommandBytes(0, 0, 0, 50, 5);
+        public static MoveCommandBytes Down = new MoveCommandBytes(0, 0, 0, -50, 5);
+        public static MoveCommandBytes Forward = new MoveCommandBytes(0, 50, 0, 0, 2);
+        public static MoveCommandBytes Backward = new MoveCommandBytes(0, -50, 0, 0, 2);
+        public static MoveCommandBytes Right = new MoveCommandBytes(50, 0, 0, 0, 2);
+        public static MoveCommandBytes Left = new MoveCommandBytes(-50, 0, 0, 0, 2);
+        public static MoveCommandBytes TurnRight = new MoveCommandBytes(0, 0, 50, 0, 2);
+        public static MoveCommandBytes TurnLeft = new MoveCommandBytes(0, 0, -50, 0, 2);
+        public static MoveCommandBytes Hover = new MoveCommandBytes(0, 0, 0, 0, 1);
 
-        public static WheelCommand WheelOn = new WheelCommand(true);
-        public static WheelCommand WheelOff = new WheelCommand(false);
+        public static WheelCommandBytes WheelOn = new WheelCommandBytes(true);
+        public static WheelCommandBytes WheelOff = new WheelCommandBytes(false);
 
 
-        public static FlipCommand ForwardFlip = new FlipCommand(Direction.Front);
-        public static FlipCommand BackwardsFlip = new FlipCommand(Direction.Back);
-        public static FlipCommand RightFlip = new FlipCommand(Direction.Right);
-        public static FlipCommand LeftFlip = new FlipCommand(Direction.Left);
+        public static FlipCommandBytes ForwardFlip = new FlipCommandBytes(Direction.Front);
+        public static FlipCommandBytes BackwardsFlip = new FlipCommandBytes(Direction.Back);
+        public static FlipCommandBytes RightFlip = new FlipCommandBytes(Direction.Right);
+        public static FlipCommandBytes LeftFlip = new FlipCommandBytes(Direction.Left);
     }
 
-    public class FlipCommand : Command
+    public class Command
+    {
+        private CommandBytes commandBytes;
+        private Channel channel;
+
+        public byte[] DataBytes => commandBytes.GetCommandBytes();
+
+        public Command(Channel channel, CommandBytes commandBytes)
+        {
+            this.commandBytes = commandBytes;
+            this.channel = channel;
+        }
+
+        public async Task Execute()
+        {
+            await channel.SendData(commandBytes);
+        }
+    }
+
+    public class TakeOff : Command
+    {
+        public TakeOff(Channel channel): base(channel, new CommandBytes(0x04, 0x00, 0x01, 0x00))
+        {
+            
+        }
+    }
+
+    public class Landing : Command
+    {
+        public Landing(Channel channel): base(channel, new CommandBytes(0x04, 0x00, 0x03, 0x00))
+        {
+
+        }
+    }
+
+
+    public class FlipCommandBytes : CommandBytes
     {
         public Direction direction { get; }
 
-        public FlipCommand(Direction direction) : base(2,4,0,0)
+        public FlipCommandBytes(Direction direction) : base(2,4,0,0)
         {
             this.direction = direction;
         }
@@ -53,10 +90,11 @@ namespace FlyWithMe
         Left = 0x03
     }
 
-    public class WheelCommand : Command
+    public class WheelCommandBytes : CommandBytes
     {
         public byte WheelOn { get; set; }
-        public WheelCommand(bool wheelOn) : base(2, 1, 2, 0, 2)
+
+        public WheelCommandBytes(bool wheelOn) : base(2, 1, 2, 0, 2)
         {
             WheelOn = BitConverter.GetBytes(wheelOn)[0];
         }
@@ -68,7 +106,7 @@ namespace FlyWithMe
     }
 
 
-    public class MoveCommand: Command
+    public class MoveCommandBytes: CommandBytes
     {
         public byte Roll { get; }
         public byte Pitch { get; }
@@ -76,7 +114,7 @@ namespace FlyWithMe
         public byte Up { get; }
         public int Steps { get; set; }
 
-        public MoveCommand(short roll, short pitch, short yaw, short up, int steps) : base(2, 0, 2, 0)
+        public MoveCommandBytes(short roll, short pitch, short yaw, short up, int steps) : base(2, 0, 2, 0)
         {
             Roll = ConvertToByte(roll);
             Pitch = ConvertToByte(pitch);
@@ -109,14 +147,13 @@ namespace FlyWithMe
         }
     }
 
-    public class Command
+    public class CommandBytes
     {
         public byte ClassId { get; }
         public byte FirstValue { get; }
         public byte ProjectId { get; }
         public byte CommandId { get; }
         public byte ArgumentId { get; }
-
 
         public byte CommandCounter { get; set; }
 
@@ -128,7 +165,7 @@ namespace FlyWithMe
         /// <param name="commandId"></param>
         /// <param name="argumentId"></param>
         /// <param name="projectId"></param>
-        public Command(byte firstValue, byte classId, byte commandId, byte argumentId, byte projectId = 0x02)
+        public CommandBytes(byte firstValue, byte classId, byte commandId, byte argumentId, byte projectId = 0x02)
         {
             FirstValue = firstValue;
             ProjectId = projectId;

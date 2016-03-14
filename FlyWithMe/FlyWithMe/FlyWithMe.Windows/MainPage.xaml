@@ -36,7 +36,7 @@
                     <Button Click="TakeOffButton_OnClick" Content="TakeOff" Margin="100,10" Width="120"/>
                     <Button Click="LandingButton_OnClick" Content="Landing" Margin="100,10" Width="120"/>
                     <Button Click="Emergency_OnClick" Content="Emergency" Margin="100,10" Width="120"/>
-                    <Button Click="Stabilise_OnClick" Content="Stabilise" Margin="100,10" Width="120"/>
+                    <!--<Button Click="Stabilise_OnClick" Content="Stabilise" Margin="100,10" Width="120"/>-->
                     <Button Click="Hover_OnClick" Content="Hover" Margin="100,10" Width="120"/>
                 </StackPanel>
                 

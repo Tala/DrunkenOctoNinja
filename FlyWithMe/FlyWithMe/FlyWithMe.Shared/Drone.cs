@@ -1,35 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.Devices.Enumeration;
 
 namespace FlyWithMe
 {
-
-    public enum DroneState
-    {
-        Landed,
-        TakeingOff,
-        Hovering,
-        Flying,
-        Landing,
-        Emergency,
-        Rolling,
-        Init
-    }
-
-
-    public class Channel
-    {
-        private int _counter = 1;
-
-        public void Increment()
-        {
-            _counter += 1;
-        }
-            
-    }
-
     /// <summary>
     ///     base class for bluetooth drones
     /// </summary>
@@ -38,10 +15,13 @@ namespace FlyWithMe
         public EventHandler<CustomEventArgs> SomethingChanged;
 
         public int motorCommandsCounter;
-        public Channel simpleCommandsChannel = new Channel();
+        public Channel simpleCommandsChannel;
         public int emergencyCommandsCounter;
         public string ProductId { get; }
         public string Name { get; }
+
+        private TakeOff takeOff;
+        private Landing landing;
 
         public NetworkAl Network { get; set; }
 
@@ -56,11 +36,15 @@ namespace FlyWithMe
             Network = new NetworkAl();
             await Network.Initialize();
             Network.SomethingChanged += OnHandle_SomethingChanged;
+
         }
 
         public async Task Connect()
         {
             await Network.Connect();
+            simpleCommandsChannel = new Channel(Network.GetServiceByGuid(Services.Command), ParrotUuids.Characteristic_A0B_SimpleCommands);
+            takeOff = new TakeOff(simpleCommandsChannel);
+            landing = new Landing(simpleCommandsChannel);
         }
 
 
@@ -77,56 +61,40 @@ namespace FlyWithMe
         {
         }
 
-        public async Task WheelsOn()
-        {
-            var command = Commands.WheelOn;
-            command.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, command);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(command.GetCommandBytes())));
-            simpleCommandsCounter++;
-        }
-
-        public async Task Stabilise()
-        {
-            var command = Commands.FlatTrim;
-            command.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, command);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(command.GetCommandBytes())));
-            simpleCommandsCounter++;
-        }
-
         public async Task TakeOff()
         {
-            await WheelsOn();
+            // Wheels are on. 
 
-            var command = Commands.TakeOff;
-            command.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, command);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(command.GetCommandBytes())));
-            simpleCommandsCounter++;
+            await takeOff.Execute();
+
+            var customEventArgs = new CustomEventArgs("Gesendet: " + BitConverter.ToString(takeOff.DataBytes));
+            SomethingChanged?.Invoke(this, customEventArgs);
         }
 
         public async Task Land()
         {
-            var command = Commands.Landing;
-            command.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, command);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(command.GetCommandBytes())));
-            simpleCommandsCounter++;
+
+            await landing.Execute();
+
+            var customEventArgs = new CustomEventArgs("Gesendet: " + BitConverter.ToString(landing.DataBytes));
+            SomethingChanged?.Invoke(this, customEventArgs);
         }
 
         internal async Task Forward()
         {
             var pitch = Commands.Forward;
-            while ( pitch.Steps >= 0)
+            while (pitch.Steps >= 0)
             {
                 pitch.CommandCounter = (byte)motorCommandsCounter;
-                await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0A_Movement, pitch);
+                await Network.SendData(
+                    ParrotUuids.Service_A00,
+                    ParrotUuids.Characteristic_A0A_Movement,
+                    pitch);
                 SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(pitch.GetCommandBytes())));
                 pitch.Steps--;
                 motorCommandsCounter++;
             }
-            
+
 
         }
 
@@ -136,42 +104,17 @@ namespace FlyWithMe
             while (pitch.Steps >= 0)
             {
                 pitch.CommandCounter = (byte)motorCommandsCounter;
-                await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0A_Movement, pitch);
+                await Network.SendData(
+                    ParrotUuids.Service_A00,
+                    ParrotUuids.Characteristic_A0A_Movement,
+                    pitch);
                 SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(pitch.GetCommandBytes())));
                 pitch.Steps--;
                 motorCommandsCounter++;
             }
-           
+
         }
 
-        internal async Task FlipLeft()
-        {
-            await Stabilise();
-            var flip = Commands.LeftFlip;
-            flip.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, flip);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(flip.GetCommandBytes())));
-            simpleCommandsCounter++;
-        }
-
-        internal async Task FlipRight()
-        {
-            var flip = Commands.RightFlip;
-            flip.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, flip);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(flip.GetCommandBytes())));
-            simpleCommandsCounter++;
-        }
-
-        internal async Task FlipForward()
-        {
-            await Stabilise();
-            var flip = Commands.ForwardFlip;
-            flip.CommandCounter = (byte)simpleCommandsCounter;
-            await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, flip);
-            SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(flip.GetCommandBytes())));
-            simpleCommandsCounter++;
-        }
 
 
         internal async Task Left()
@@ -185,7 +128,7 @@ namespace FlyWithMe
                 roll.Steps--;
                 motorCommandsCounter++;
             }
-            
+
         }
 
         internal async Task Right()
@@ -199,7 +142,7 @@ namespace FlyWithMe
                 roll.Steps--;
                 motorCommandsCounter++;
             }
-            
+
         }
 
         internal async Task Up()
@@ -214,7 +157,7 @@ namespace FlyWithMe
                 gaz.Steps--;
                 motorCommandsCounter++;
             }
-           
+
         }
 
         internal async Task Down()
@@ -228,7 +171,7 @@ namespace FlyWithMe
                 gaz.Steps--;
                 motorCommandsCounter++;
             }
-           
+
         }
 
         internal async Task EmergencyStop()
@@ -242,7 +185,7 @@ namespace FlyWithMe
 
         private void OnHandle_SomethingChanged(object o, GattValueChangedEventArgs args)
         {
-            var sender = (GattCharacteristic) o;
+            var sender = (GattCharacteristic)o;
             var senderData = sender.Uuid;
             var byteArray = args.CharacteristicValue.ToArray();
 
@@ -296,6 +239,16 @@ namespace FlyWithMe
             SomethingChanged?.Invoke(this, new CustomEventArgs(senderData + ": " + StateString));
 
 
+        }
+        internal async Task FlipForward()
+        {
+            //    // await Stabilise();
+            //    var flip = Commands.ForwardFlip;
+            //    flip.CommandCounter = (byte)simpleCommandsCounter;
+            //    await Network.SendData(ParrotUuids.Service_A00, ParrotUuids.Characteristic_A0B_SimpleCommands, flip);
+            //    SomethingChanged?.Invoke(this, new CustomEventArgs("Gesendet: " + BitConverter.ToString(flip.GetCommandBytes())));
+            //    simpleCommandsCounter++;
+            //
         }
 
         public async Task Hover()

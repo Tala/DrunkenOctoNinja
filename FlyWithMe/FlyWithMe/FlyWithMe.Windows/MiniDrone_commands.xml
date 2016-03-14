@@ -84,10 +84,10 @@
  -->
 
 <project id="2">
-    All MiniDrone-only commands
+    All MiniDrone-only CommandBytess
     
     <class name="Piloting" id="0">
-        All commands related to piloting the MiniDrone
+        All CommandBytess related to piloting the MiniDrone
         
         <cmd name="FlatTrim">
             Do a flat trim
@@ -210,7 +210,7 @@
     </class>
 
     <class name="Animations" id="4">
-        Animation commands
+        Animation CommandBytess
         
         <cmd name="Flip">
             Make a flip
@@ -350,7 +350,7 @@
     
     
     <class name="PilotingSettings" id="8">
-        Piloting Settings commands
+        Piloting Settings CommandBytess
         <cmd name="MaxAltitude">
             Set Max Altitude
             <arg name="current" type="float">
@@ -394,7 +394,7 @@
     </class>
     
     <class name="SpeedSettings" id="1">
-        Speed Settings commands
+        Speed Settings CommandBytess
         <cmd name="MaxVerticalSpeed">
             Set Max Vertical speed
             <arg name="current" type="float">
@@ -449,7 +449,7 @@
         </cmd>
     </class>
     <class name="Settings" id="10">
-        Settings commands
+        Settings CommandBytess
         
         <cmd name="CutOutMode">
             Set MiniDrone cut out mode
@@ -507,7 +507,7 @@
         </cmd>
     </class>
     <class name="GPS" id="13">
-        GPS related commands
+        GPS related CommandBytess
         <cmd name="ControllerLatitudeForRun">
             Set the controller latitude for a run.
             <arg name="latitude" type="double">
@@ -522,7 +522,7 @@
         </cmd>
     </class>
     <class name="Configuration" id="14">
-        Configuration related commands
+        Configuration related CommandBytess
         <cmd name="ControllerType">
             Set the controller type.
             <arg name="type" type="string">

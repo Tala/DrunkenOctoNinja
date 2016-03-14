@@ -70,10 +70,10 @@
 
 
 <project id="1">
-    All ARDrone3-only commands
+    All ARDrone3-only CommandBytess
     
     <class name="Piloting" id="0">
-        All commands related to piloting the totoDrone
+        All CommandBytess related to piloting the totoDrone
         
         <cmd name="FlatTrim">
             Do a flat trim
@@ -107,7 +107,7 @@
             </arg>
             
             <arg name="timestampAndSeqNum" type="u32">
-                Command timestamp in milliseconds (low 24 bits) + command sequence number [0;255] (high 8 bits).
+                CommandBytes timestamp in milliseconds (low 24 bits) + CommandBytes sequence number [0;255] (high 8 bits).
             </arg>
         </cmd>
         
@@ -133,7 +133,7 @@
         </cmd>
         
         <cmd name="moveBy">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Move the drone to a relative position and rotate heading by a given angle
             The frame is horizontal and relative to the current drone orientation:
             - X is front
@@ -156,7 +156,7 @@
     </class>
     
     <class name="Animations" id="5">
-        Animation commands
+        Animation CommandBytess
         
         <cmd name="Flip">
             Make a flip
@@ -187,13 +187,13 @@
             <arg name="tilt" type="i8">
                 Tilt camera consign for the drone (in degree)
                 The value is saturated by the drone.
-                Saturation value is sent by thre drone through CameraSettingsChanged command.
+                Saturation value is sent by thre drone through CameraSettingsChanged CommandBytes.
             </arg>
             
             <arg name="pan" type="i8">
                 Pan camera consign for the drone (in degree)
                 The value is saturated by the drone.
-                Saturation value is sent by thre drone through CameraSettingsChanged command.
+                Saturation value is sent by thre drone through CameraSettingsChanged CommandBytes.
             </arg>
         </cmd>
     </class>
@@ -213,7 +213,7 @@
             @deprecated
             Video record
             <arg name="record" type="enum">
-                Command to record video
+                CommandBytes to record video
                 <enum name="stop">
                     Stop the video recording
                 </enum>
@@ -233,7 +233,7 @@
         <cmd name="VideoV2">
             Video record
             <arg name="record" type="enum">
-                Command to record video
+                CommandBytes to record video
                 <enum name="stop">
                     Stop the video recording
                 </enum>
@@ -588,7 +588,7 @@
         Events of Piloting
         
         <cmd name="moveByEnd">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             End of relative displacement of the drone
             The frame is horizontal and relative to the current drone orientation:
             - X is front
@@ -615,20 +615,20 @@
                     Unknown generic error
                 </enum>
                 <enum name="busy">
-                    The Device is busy ; command moveBy ignored 
+                    The Device is busy ; CommandBytes moveBy ignored 
                 </enum>
                 <enum name="notAvailable">
-                    Command moveBy is not available ; command moveBy ignored 
+                    CommandBytes moveBy is not available ; CommandBytes moveBy ignored 
                 </enum>
                 <enum name="interrupted">
-                    Command moveBy interrupted 
+                    CommandBytes moveBy interrupted 
                 </enum>
             </arg>
         </cmd>
     </class>
     
     <class name="Network" id="13">
-        Network related commands
+        Network related CommandBytess
         
         <cmd name="WifiScan">
             Launches wifi network scan
@@ -706,7 +706,7 @@
     </class>
 
     <class name="PilotingSettings" id="2">
-        Piloting Settings commands
+        Piloting Settings CommandBytess
         <cmd name="MaxAltitude">
             Set Max Altitude
             <arg name="current" type="float">
@@ -739,7 +739,7 @@
         </cmd>
         
         <cmd name="setAutonomousFlightMaxHorizontalSpeed">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Set the maximum horizontal speed used by the autonomous flight
             <arg name="value" type="float">
                 maximum horizontal speed [m/s]
@@ -747,7 +747,7 @@
         </cmd>
         
         <cmd name="setAutonomousFlightMaxVerticalSpeed">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Set the maximum vertical speed used by the autonomous flight
             <arg name="value" type="float">
                 maximum vertical speed [m/s]
@@ -755,7 +755,7 @@
         </cmd>
         
         <cmd name="setAutonomousFlightMaxHorizontalAcceleration">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Set the maximum horizontal acceleration used by the autonomous flight
             <arg name="value" type="float">
                 maximum horizontal acceleration [m/s2]
@@ -763,7 +763,7 @@
         </cmd>
         
         <cmd name="setAutonomousFlightMaxVerticalAcceleration">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Set the maximum vertical acceleration used by the autonomous flight
             <arg name="value" type="float">
                 maximum vertical acceleration [m/s2]
@@ -771,7 +771,7 @@
         </cmd>
         
         <cmd name="setAutonomousFlightMaxRotationSpeed">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Set the maximum yaw rotation speed used by the autonomous flight
             <arg name="value" type="float">
                 maximum yaw rotation speed [rad/s]
@@ -831,7 +831,7 @@
         </cmd>
         
         <cmd name="AutonomousFlightMaxHorizontalSpeed">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Maximum horizontal speed used by the autonomous flight
             <arg name="value" type="float">
                 maximum horizontal speed [m/s]
@@ -839,7 +839,7 @@
         </cmd>
         
         <cmd name="AutonomousFlightMaxVerticalSpeed">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Maximum vertical speed used by the autonomous flight
             <arg name="value" type="float">
                 maximum vertical speed [m/s]
@@ -847,7 +847,7 @@
         </cmd>
         
         <cmd name="AutonomousFlightMaxHorizontalAcceleration">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Maximum horizontal acceleration used by the autonomous flight
             <arg name="value" type="float">
                 maximum horizontal acceleration [m/s2]
@@ -855,7 +855,7 @@
         </cmd>
         
         <cmd name="AutonomousFlightMaxVerticalAcceleration">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Maximum vertical acceleration used by the autonomous flight
             <arg name="value" type="float">
                 maximum vertical acceleration [m/s2]
@@ -863,7 +863,7 @@
         </cmd>
         
         <cmd name="AutonomousFlightMaxRotationSpeed">
-            Draft: this command is not implemented yet by the firmware
+            Draft: this CommandBytes is not implemented yet by the firmware
             Maximum yaw rotation speed used by the autonomous flight
             <arg name="value" type="float">
                 maximum yaw rotation speed [rad/s]
@@ -872,7 +872,7 @@
     </class>
 
     <class name="SpeedSettings" id="11">
-        Speed Settings commands
+        Speed Settings CommandBytess
         <cmd name="MaxVerticalSpeed">
             Set Max Vertical speed
             <arg name="current" type="float">
@@ -940,7 +940,7 @@
     </class>
     
     <class name="NetworkSettings" id="9">
-        Network settings commands
+        Network settings CommandBytess
         <cmd name="WifiSelection">
             Auto-select channel of choosen band
             <arg name="type" type="enum">
@@ -1041,7 +1041,7 @@
     </class>
     
     <class name="Settings" id="15">
-        Settings commands
+        Settings CommandBytess
     
     </class>
    
@@ -1198,7 +1198,7 @@
     </class>
     
     <class name="DirectorMode" id="17">
-        Director mode commands
+        Director mode CommandBytess
         
     </class>
 
@@ -1548,7 +1548,7 @@
     </class>
     
     <class name="Antiflickering" id="29">
-        Anti-flickering related commands
+        Anti-flickering related CommandBytess
         <cmd name="electricFrequency">
             Electric frequency of the country determined by the position of the controller
             <arg name="frequency" type="enum">

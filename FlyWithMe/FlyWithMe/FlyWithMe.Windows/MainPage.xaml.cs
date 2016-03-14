@@ -136,13 +136,13 @@ namespace FlyWithMe
 
         private async void FlipLeft_OnCLick(object sender, RoutedEventArgs e)
         {
-            await drone.FlipLeft();
+            //await drone.FlipLeft();
             Console.Text += string.Format("Drone flip left. \n");
         }
 
         private async void FlipForward_OnCLick(object sender, RoutedEventArgs e)
         {
-            await drone.FlipForward();
+            //await drone.FlipForward();
             Console.Text += string.Format("Drone flip forward. \n");
         }
 
@@ -163,13 +163,7 @@ namespace FlyWithMe
             await drone.Down();
             Console.Text += string.Format("Drone move down. \n");
         }
-
-        private async void Stabilise_OnClick(object sender, RoutedEventArgs e)
-        {
-            await drone.Stabilise();
-            Console.Text += string.Format("Drone stabilise. \n");
-        }
-
+        
         private async void Hover_OnClick(object sender, RoutedEventArgs e)
         {
             await drone.Hover();

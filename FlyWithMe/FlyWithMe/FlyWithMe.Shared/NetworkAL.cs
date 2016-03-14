@@ -26,6 +26,11 @@ namespace FlyWithMe
 
         public EventHandler<GattValueChangedEventArgs> SomethingChanged;
 
+        public GattDeviceService GetServiceByGuid(Guid serviceId)
+        {
+            return DeviceServices.FirstOrDefault(s => s.Uuid == serviceId);
+        }
+
         public NetworkAl()
         {
             DeviceInformations = new List<DeviceInformation>();
@@ -41,14 +46,26 @@ namespace FlyWithMe
             await DeregisterEventhandling(ParrotUuids.Service_D51);
         }
 
-        public async Task SendData(Guid servieGuid, Guid characteristicGuid, Command data)
+
+        public async Task SendData2(Guid service, Guid characteristicGuid, CommandBytes commandBytes)
         {
-            // get list of characteristics by serviceGuid
-            var characteristicList = Characteristics[servieGuid.ToString()];
-            // get characteristic
-            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == characteristicGuid);
-            // write value async
-            var status = await characteristic.WriteValueAsync(data.GetCommandBytes().AsBuffer(), GattWriteOption.WriteWithoutResponse);
+            var firstOrDefault = 
+                Characteristics[service.ToString()]
+                .FirstOrDefault(c => c.Uuid == characteristicGuid);
+
+            var data = commandBytes.GetCommandBytes().AsBuffer();
+            var status = await firstOrDefault.WriteValueAsync(data, GattWriteOption.WriteWithoutResponse);
+
+            Debug.WriteLine(status.ToString());
+        }
+
+        public async Task SendData(Guid service, Guid characteristicGuid, CommandBytes data)
+        {
+            var characteristicList = Characteristics[service.ToString()];
+            var firstOrDefault = characteristicList.FirstOrDefault(c => c.Uuid == characteristicGuid);
+            
+            var buffer = data.GetCommandBytes().AsBuffer();
+            var status = await firstOrDefault.WriteValueAsync(buffer, GattWriteOption.WriteWithoutResponse);
            
             Debug.WriteLine(status.ToString());
         }
@@ -163,7 +180,9 @@ namespace FlyWithMe
 
         private void RegisterCharacteristic(Guid service_uuid, Guid characteristicUuid)
         {
-            var accData = DeviceServices.FirstOrDefault(s => s.Uuid == service_uuid).GetCharacteristics(characteristicUuid)[0];
+            var accData = DeviceServices
+                .FirstOrDefault(s => s.Uuid == service_uuid)
+                .GetCharacteristics(characteristicUuid)[0];
 
             if (!Characteristics.ContainsKey(service_uuid.ToString()))
             {

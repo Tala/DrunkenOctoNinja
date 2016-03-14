@@ -15,10 +15,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Channel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Drone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Discovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DroneCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DroneState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NetworkAL.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ParrotUuids.cs" />
   </ItemGroup>

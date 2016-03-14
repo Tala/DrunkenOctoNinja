@@ -20,7 +20,7 @@ namespace FlyWithMe
     }
 
     /// <summary>
-    /// Reimplementation of Parrot API Command-Class
+    /// Reimplementation of Parrot API CommandBytes-Class
     /// </summary>
     public class DroneCommand
     {

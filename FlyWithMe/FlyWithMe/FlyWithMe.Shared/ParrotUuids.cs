@@ -25,7 +25,7 @@ namespace FlyWithMe
         /// </summary>
         public static Guid Service_C00 = new Guid("9a66fc00-0800-9191-11e4-012d1540cb8e");
 
-
+        // Unused? I got no connection
         public static Guid Service_E00 = new Guid("9a66fe00-0800-9191-11e4-012d1540cb8e");
 
         /// <summary>
@@ -67,4 +67,24 @@ namespace FlyWithMe
         public static Guid Characteristic_D53 = new Guid("9a66fd53-0800-9191-11e4-012d1540cb8e");
         public static Guid Characteristic_D54 = new Guid("9a66fd54-0800-9191-11e4-012d1540cb8e");
     }
+
+    public static class Services
+    {
+        public static Guid Command
+        {
+            get
+            {   // [JH,TO] This is the id of the channel for commands
+                // I dont get ACKs therefore I can only send instructions 
+                // (and then not give a shit, pardon, FUCK)
+                return ParrotUuids.Service_A00;
+            }
+        }
+    }
+
+    public static class Characteristics
+    {
+        public static Guid SimpleCommands {
+            get { return ParrotUuids.Characteristic_A0B_SimpleCommands; }
+        }
+}
 }
