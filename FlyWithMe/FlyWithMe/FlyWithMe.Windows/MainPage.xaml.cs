@@ -19,8 +19,8 @@ namespace FlyWithMe
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private NetworkAl network;
-        private Drone drone;
+        //private NetworkAl network;
+        private Drone_New drone;
         
         public MainPage()
         {
@@ -42,32 +42,38 @@ namespace FlyWithMe
             {
                 case Windows.System.VirtualKey.W:
                     {
-                        await drone.Forward();
+                        //await drone.Forward();
+                        await drone.Move(Direction.Front, 30);
                         break;
                     }
                 case Windows.System.VirtualKey.S:
                     {
-                        await drone.Backward();
+                        //await drone.Backward();
+                        await drone.Move(Direction.Back, 30);
                         break;
                     }
                 case Windows.System.VirtualKey.A:
                     {
-                        await drone.Left();
+                        //await drone.Left();
+                        await drone.Move(Direction.Left, 30);
                         break;
                     }
                 case Windows.System.VirtualKey.D:
                     {
-                        await drone.Right();
+                        //await drone.Right();
+                        await drone.Move(Direction.Right, 30);
                         break;
                     }
                 case Windows.System.VirtualKey.Space:
                     {
-                        await drone.Up();
+                        //await drone.Up();
+                        await drone.Move(Direction.Up, 30);
                         break;
                     }
                 case Windows.System.VirtualKey.X:
                     {
-                        await drone.Down();
+                        //await drone.Down();
+                        await drone.Move(Direction.Down, 30);
                         break;
                     }
                 default:
@@ -80,9 +86,11 @@ namespace FlyWithMe
 
         private async void Stuff()
         {
-            drone = new Drone();
-            await drone.Initialize();
-            drone.SomethingChanged += OnHandle_SomethingChanged;
+            //drone = new Drone();
+            //await drone.Initialize();
+            //drone.SomethingChanged += OnHandle_SomethingChanged;
+            drone = new Drone_New();
+            await drone.Connection.Initialise();
             Console.Text += string.Format("Drone initialized. \n");
         }
 
@@ -106,7 +114,7 @@ namespace FlyWithMe
 
         private async void Emergency_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.EmergencyStop();
+            await drone.EmergencyStopp();
             Console.Text += string.Format("Drone emergency stop sent. \n");
         }
 
@@ -118,56 +126,58 @@ namespace FlyWithMe
 
         private async void Forwards_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.Forward();
+            //await drone.Forward();
+            await drone.Move(Direction.Front, 30);
             Console.Text += string.Format("Drone move forwards. \n");
         }
 
         private async void Backwards_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.Backward();
+            //await drone.Backward();
+            await drone.Move(Direction.Back, 30);
             Console.Text += string.Format("Drone move backwards. \n");
         }
 
         private async void Left_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.Left();
+            //await drone.Left();
+            await drone.Move(Direction.Left, 30);
             Console.Text += string.Format("Drone move left. \n");
         }
 
         private async void FlipLeft_OnCLick(object sender, RoutedEventArgs e)
         {
             //await drone.FlipLeft();
+            await drone.Flip(Direction.Left);
             Console.Text += string.Format("Drone flip left. \n");
         }
 
         private async void FlipForward_OnCLick(object sender, RoutedEventArgs e)
         {
             //await drone.FlipForward();
+            await drone.Flip(Direction.Front);
             Console.Text += string.Format("Drone flip forward. \n");
         }
 
         private async void Right_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.Right();
+            //await drone.Right();
+            await drone.Move(Direction.Right, 30);
             Console.Text += string.Format("Drone move right. \n");
         }
 
         private async void Up_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.Up();
+            //await drone.Up();
+            await drone.Move(Direction.Up, 30);
             Console.Text += string.Format("Drone move up. \n");
         }
 
         private async void Down_OnClick(object sender, RoutedEventArgs e)
         {
-            await drone.Down();
+            //await drone.Down();
+            await drone.Move(Direction.Down, 30);
             Console.Text += string.Format("Drone move down. \n");
-        }
-        
-        private async void Hover_OnClick(object sender, RoutedEventArgs e)
-        {
-            await drone.Hover();
-            Console.Text += string.Format("Drone hover. \n");
         }
     }
 }

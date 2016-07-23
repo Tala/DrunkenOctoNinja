@@ -46,19 +46,6 @@ namespace FlyWithMe
             await DeregisterEventhandling(ParrotUuids.Service_D51);
         }
 
-
-        public async Task SendData2(Guid service, Guid characteristicGuid, CommandBytes commandBytes)
-        {
-            var firstOrDefault = 
-                Characteristics[service.ToString()]
-                .FirstOrDefault(c => c.Uuid == characteristicGuid);
-
-            var data = commandBytes.GetCommandBytes().AsBuffer();
-            var status = await firstOrDefault.WriteValueAsync(data, GattWriteOption.WriteWithoutResponse);
-
-            Debug.WriteLine(status.ToString());
-        }
-
         public async Task SendData(Guid service, Guid characteristicGuid, CommandBytes data)
         {
             var characteristicList = Characteristics[service.ToString()];
@@ -132,7 +119,12 @@ namespace FlyWithMe
             await RegisterEventhandling(ParrotUuids.Service_D21);
             await RegisterEventhandling(ParrotUuids.Service_D51);
 
+            //await InitChannelA1E();
 
+        }
+
+        public async Task InitChannelA1E()
+        {
             // get list of characteristics by serviceGuid
             var characteristicList = Characteristics[ParrotUuids.Service_A00.ToString()];
             // get characteristic
@@ -190,53 +182,6 @@ namespace FlyWithMe
             }
             Characteristics[service_uuid.ToString()].Add(accData);
         }
-
-
-//        //Find the devices that expose the service  
-//        var devices = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.GenericAccess));  
-//       if (devices.Count==0)  
-//         return;  
-//       //Connect to the service  
-//       var service = await GattDeviceService.FromIdAsync(devices[0].Id);  
-//       if (service == null)  
-//         return;  
-//       //Obtain the characteristic we want to interact with  
-//       var characteristic = service.GetCharacteristics(GattCharacteristic.ConvertShortIdToUuid(0x2A00))[0];
-//        //Read the value  
-//        var deviceNameBytes = (await characteristic.ReadValueAsync()).Value.ToArray();
-//        //Convert to string  
-//        var deviceName = Encoding.UTF8.GetString(deviceNameBytes, 0, deviceNameBytes.Length);
-
-//        Now let's see how to interact with an non standard service and a characteristic that notifies when changing. I've chosen the accelerometer service of the SensorTAG:
-
-//       //Find the devices that expose the service  
-//        var devices = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(new Guid("F000AA10-0451-4000-B000-000000000000")));  
-//       if (devices.Count==0)  
-//         return;  
-//       //Connect to the service  
-//       var accService = await GattDeviceService.FromIdAsync(devices[0].Id);  
-//       if (accService == null)  
-//         return;  
-//       //Get the accelerometer data characteristic  
-//       var accData = accService.GetCharacteristics(new Guid("F000AA11-0451-4000-B000-000000000000"))[0];
-//        //Subcribe value changed  
-//        accData.ValueChanged += accData_ValueChanged;  
-//       //Set configuration to notify  
-//       await accData.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-//        //Get the accelerometer configuration characteristic  
-//        var accConfig = accService.GetCharacteristics(new Guid("F000AA12-0451-4000-B000-000000000000"))[0];
-//        //Write 1 to start accelerometer sensor  
-//        await accConfig.WriteValueAsync((new byte[]{1}).AsBuffer());  
-
-//In this case we connect to the service, we subscribe to the data characteristic notifications (we also ensure that the characteristic is in notify mode), and then we start the accelerometer sensor. Once the sensor starts it will notify us every 1000 ms. (default value that can be changed).
-
-// async void accData_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
-//        {
-//            var values = (await sender.ReadValueAsync()).Value.ToArray();
-//            var x = values[0];
-//            var y = values[1];
-//            var z = values[2];
-//        }
     }
 
 

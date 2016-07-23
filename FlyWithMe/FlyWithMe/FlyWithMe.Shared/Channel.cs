@@ -10,6 +10,10 @@ namespace FlyWithMe
         private GattCharacteristic Characteristic;
         private int _counter = 1;
 
+        public Channel(GattCharacteristic characteristic)
+        {
+            Characteristic = characteristic;
+        }
 
         public Channel(GattDeviceService service, Guid characteristicId)
         {

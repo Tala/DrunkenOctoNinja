@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FlyWithMe
@@ -65,12 +66,36 @@ namespace FlyWithMe
         }
     }
 
+    public class CommonCommandBytes : CommandBytes
+    {
+        public byte[] Array { get; }
+
+        // byte firstValue, byte classId, byte commandId, byte argumentId, byte projectId = 0x02
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dateOrTime"> date == 0x01; time == 0x02 </param>
+        /// <param name="array"></param>
+        public CommonCommandBytes(byte dateOrTime, byte[] array) : base (4,4,dateOrTime,0,0)
+        {
+            Array = array;
+        }
+
+        public new byte[] GetCommandBytes()
+        {
+            // Note (KO): Ich glaub das Funktioniert nicht. soll: 410410 für date und 420420 für time
+            var bytes = new[] { FirstValue, CommandCounter, ProjectId, ClassId, CommandId, ArgumentId };
+            var byteList = bytes.ToList();
+            byteList.AddRange(Array);
+            return byteList.ToArray();
+        }
+    }
 
     public class FlipCommandBytes : CommandBytes
     {
         public Direction direction { get; }
 
-        public FlipCommandBytes(Direction direction) : base(2,4,0,0)
+        public FlipCommandBytes(Direction direction) : base(4,4,0,0)
         {
             this.direction = direction;
         }
@@ -78,7 +103,7 @@ namespace FlyWithMe
         public new byte[] GetCommandBytes()
         {
 
-            return new[] { FirstValue, CommandCounter, ProjectId, ClassId, CommandId, ArgumentId, (byte) direction, (byte)0, (byte)0, (byte)0 };
+            return new byte[] { FirstValue, CommandCounter, ProjectId, ClassId, CommandId, ArgumentId, (byte) direction, 0x00,0x00,0x00 };
         }
     }
 
@@ -87,7 +112,10 @@ namespace FlyWithMe
         Front = 0x00,
         Back = 0x01,
         Right = 0x02,
-        Left = 0x03
+        Left = 0x03,
+        Up = 0x04,
+        Down = 0x05
+
     }
 
     public class WheelCommandBytes : CommandBytes

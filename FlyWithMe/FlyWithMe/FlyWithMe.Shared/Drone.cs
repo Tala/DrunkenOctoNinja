@@ -46,21 +46,12 @@ namespace FlyWithMe
             takeOff = new TakeOff(simpleCommandsChannel);
             landing = new Landing(simpleCommandsChannel);
         }
-
-
+        
         public async Task Disconnect()
         {
             await Network.Disconnect();
         }
-
-        public void RecieveData()
-        {
-        }
-
-        public void WaitForAnswer()
-        {
-        }
-
+        
         public async Task TakeOff()
         {
             // Wheels are on. 
@@ -69,6 +60,8 @@ namespace FlyWithMe
 
             var customEventArgs = new CustomEventArgs("Gesendet: " + BitConverter.ToString(takeOff.DataBytes));
             SomethingChanged?.Invoke(this, customEventArgs);
+
+
         }
 
         public async Task Land()
@@ -114,9 +107,7 @@ namespace FlyWithMe
             }
 
         }
-
-
-
+        
         internal async Task Left()
         {
             var roll = Commands.Left;
