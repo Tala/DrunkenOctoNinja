@@ -98,6 +98,7 @@
     <Compile Include="Channel.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="DroneConnection.cs" />
+    <Compile Include="DroneDiscovery.cs" />
     <Compile Include="DroneState.cs" />
     <Compile Include="Drone_New.cs" />
     <Compile Include="MainPage.xaml.cs">
