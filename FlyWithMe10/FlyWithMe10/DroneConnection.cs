@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace FlyWithMe
+namespace FlyWithMe10
 {
     /// <summary>
     ///     New implementation of NetworkAL
@@ -92,7 +93,7 @@ namespace FlyWithMe
             for (var n = 0; n < dateString.Length; n++)
             {
                 if (n == 4 || n == 7) continue;
-                byte.TryParse("3" + dateString[n], out dateBytes[n]);
+                byte.TryParse("3" + dateString[n], NumberStyles.HexNumber, null as IFormatProvider, out dateBytes[n]);
             }
             dateBytes[10] = 0x00;
 
@@ -101,21 +102,21 @@ namespace FlyWithMe
 
         public static byte[] GetTimeArray(DateTime time)
         {
-            var timeString = time.ToString("HHmmss");
-            var timeArray = new byte[13];
-            timeArray[0] = 0x54;
+            var timeString = time.ToString("HHmmssffff");
+            var timeArray = new byte[12];
+            var tempArray = new byte[12];
+            tempArray[0] = 0x54;
 
             for (var n = 0; n < timeString.Length; n++)
             {
-                if (n == 4 || n == 7) continue;
-                byte.TryParse("3" + timeString[n], out timeArray[n + 1]);
+                byte.TryParse("3" + timeString[n], NumberStyles.HexNumber, null as IFormatProvider, out tempArray[n + 1]);
             }
+            tempArray.CopyTo(timeArray,0);
             timeArray[7] = 0x2B;
-            timeArray[8] = 0x30;
-            timeArray[9] = 0x31;
-            timeArray[10] = 0x30;
-            timeArray[11] = 0x30;
-            timeArray[12] = 0x00;
+            timeArray[8] = tempArray[7];
+            timeArray[9] = tempArray[8];
+            timeArray[10] = tempArray[9];
+            timeArray[11] = 0x00;
             return timeArray;
         }
     }

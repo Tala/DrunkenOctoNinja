@@ -3,7 +3,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace FlyWithMe
+namespace FlyWithMe10
 {
     public class Channel
     {

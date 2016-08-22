@@ -17,7 +17,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Channel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Drone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DroneConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DroneState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Drone_New.cs" />

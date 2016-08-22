@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="FlyWithMe10.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FlyWithMe"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left side -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!-- List of Devices ? or general Information-->
+
+            <!-- Buttons-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    
+                </Grid.ColumnDefinitions>
+
+                <!-- Buttons für Connection, Take off, Landing, Emergency-->
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Click="Connect_OnClick" Content="Connect" Margin="100,10" Width="120"/>
+                    <Button Click="TakeOffButton_OnClick" Content="TakeOff" Margin="100,10" Width="120"/>
+                    <Button Click="LandingButton_OnClick" Content="Landing" Margin="100,10" Width="120"/>
+                    <Button Click="Emergency_OnClick" Content="Emergency" Margin="100,10" Width="120"/>
+                    <!--<Button Click="Stabilise_OnClick" Content="Stabilise" Margin="100,10" Width="120"/>-->
+                </StackPanel>
+                
+                <!-- Buttons für up, down, left, right, forwards, backwards-->
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Click="Forwards_OnClick" Content="Fowards (W)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" Click="Backwards_OnClick" Content="Backwards (S)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1" Click="Left_OnClick" Content="Left (A)" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="2" Grid.Row="1" Click="Right_OnClick" Content="Right (D)" Width="120"/>
+                    <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Click="Up_OnClick" Content="Up (Space)" Margin="10" Width="120"/>
+                        <Button Click="Down_OnClick" Content="Down (X)" Margin="10" Width="120"/>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Click="FlipLeft_OnCLick" Content="Flip Left" Width="120"/>
+                    <Button HorizontalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="FlipForward_OnCLick" Content="Flip Forward" Width="120"/>
+                </Grid>
+            </Grid>
+            
+            <!-- Log-->
+            <TextBox Grid.Row="2" Background="Black" Foreground="White" x:Name="Console" TextWrapping="Wrap"/>
+
+
+        </Grid>
+        
+
+
+        <!-- Right side -->
+        <Grid Grid.Column="0">
+            <!-- kinect Color Viewer-->
+        </Grid>
+    </Grid>
+</Page>
