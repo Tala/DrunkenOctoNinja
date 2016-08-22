@@ -7,8 +7,8 @@
     <ProjectGuid>{C0D377E3-9AFF-477E-A459-03DFB4460DC9}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlyWithMe10</RootNamespace>
-    <AssemblyName>FlyWithMe10</AssemblyName>
+    <RootNamespace>ParrotMiniDroneControle</RootNamespace>
+    <AssemblyName>ParrotMiniDroneControle</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>

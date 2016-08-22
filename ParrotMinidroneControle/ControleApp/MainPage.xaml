@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="FlyWithMe10.MainPage"
+    x:Class="ParrotMiniDroneControle.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:FlyWithMe"

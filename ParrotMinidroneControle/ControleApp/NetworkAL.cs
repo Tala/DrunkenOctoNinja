@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
-using Windows.UI.ViewManagement;
 
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     /// <summary>
     /// Implementation of Network communication for bluetooth between drone and app

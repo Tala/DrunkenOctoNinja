@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     /// <summary>
     ///     New implementation of NetworkAL
@@ -81,7 +81,7 @@ namespace FlyWithMe10
         /// <summary>
         ///     Transforms current date in byte array that can be directly send to the drone
         /// </summary>
-        /// <returns>ByteArray in Form: 3X 3X 3X 3X 2D 3X 3X 2D 3X 3X where X are taken from current Date</returns>
+        /// <returns>ByteArray in Form: 3X 3X 3X 3X 2D 3X 3X 2D 3X 3X 00 where X are taken from current Date</returns>
         public static byte[] GetDateArray(DateTime date)
         {
             var dateString = date.ToString("yyyy-MM-dd");

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     public static class ParrotUuids
     {

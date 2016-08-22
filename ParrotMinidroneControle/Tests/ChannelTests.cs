@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FlyWithMe10;
+using ParrotMiniDroneControle;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Tests

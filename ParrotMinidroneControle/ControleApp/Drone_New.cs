@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.System.Threading;
 
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     /// <summary>
     /// Refactored Version of the Drone Objekt

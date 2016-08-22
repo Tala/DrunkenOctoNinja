@@ -129,9 +129,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlyWithMe10\FlyWithMe10.csproj">
-      <Project>{c0d377e3-9aff-477e-a459-03dfb4460dc9}</Project>
-      <Name>FlyWithMe10</Name>
+    <ProjectReference Include="..\ControleApp\ParrotMiniDroneControle.csproj">
+      <Project>{C0D377E3-9AFF-477E-A459-03DFB4460DC9}</Project>
+      <Name>ParrotMiniDroneControle</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

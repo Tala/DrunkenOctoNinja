@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     public static class Commands
     {

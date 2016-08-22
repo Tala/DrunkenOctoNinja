@@ -3,7 +3,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     public class Channel
     {

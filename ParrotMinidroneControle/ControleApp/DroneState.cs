@@ -1,4 +1,4 @@
-namespace FlyWithMe10
+namespace ParrotMiniDroneControle
 {
     public enum DroneState
     {
