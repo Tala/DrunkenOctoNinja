@@ -101,6 +101,7 @@
     <Compile Include="DroneDiscovery.cs" />
     <Compile Include="DroneState.cs" />
     <Compile Include="Drone_New.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

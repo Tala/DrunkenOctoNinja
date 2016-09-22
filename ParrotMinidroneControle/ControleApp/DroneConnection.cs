@@ -93,7 +93,7 @@ namespace ParrotMiniDroneControle
             for (var n = 0; n < dateString.Length; n++)
             {
                 if (n == 4 || n == 7) continue;
-                byte.TryParse("3" + dateString[n], NumberStyles.HexNumber, null as IFormatProvider, out dateBytes[n]);
+                byte.TryParse("3" + dateString[n], NumberStyles.HexNumber, null, out dateBytes[n]);
             }
             dateBytes[10] = 0x00;
 
@@ -109,9 +109,9 @@ namespace ParrotMiniDroneControle
 
             for (var n = 0; n < timeString.Length; n++)
             {
-                byte.TryParse("3" + timeString[n], NumberStyles.HexNumber, null as IFormatProvider, out tempArray[n + 1]);
+                byte.TryParse("3" + timeString[n], NumberStyles.HexNumber, null, out tempArray[n + 1]);
             }
-            tempArray.CopyTo(timeArray,0);
+            tempArray.CopyTo(timeArray, 0);
             timeArray[7] = 0x2B;
             timeArray[8] = tempArray[7];
             timeArray[9] = tempArray[8];

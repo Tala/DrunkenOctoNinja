@@ -10,10 +10,19 @@ using Windows.Devices.Enumeration;
 namespace ParrotMiniDroneControle
 {
     /// <summary>
-    /// Implementation of Network communication for bluetooth between drone and app
+    ///     Implementation of Network communication for bluetooth between drone and app
     /// </summary>
     public class NetworkAl
     {
+        public EventHandler<GattValueChangedEventArgs> SomethingChanged;
+
+        public NetworkAl()
+        {
+            DeviceInformations = new List<DeviceInformation>();
+            DeviceServices = new List<GattDeviceService>();
+            Characteristics = new Dictionary<string, List<GattCharacteristic>>();
+        }
+
         public List<DeviceInformation> DeviceInformations { get; set; }
 
         public List<GattDeviceService> DeviceServices { get; }
@@ -22,19 +31,9 @@ namespace ParrotMiniDroneControle
 
         public string StateString { get; set; }
 
-        public EventHandler<GattValueChangedEventArgs> SomethingChanged;
-
         public GattDeviceService GetServiceByGuid(Guid serviceId)
         {
             return DeviceServices.FirstOrDefault(s => s.Uuid == serviceId);
-        }
-
-        public NetworkAl()
-        {
-            DeviceInformations = new List<DeviceInformation>();
-            DeviceServices = new List<GattDeviceService>();
-            Characteristics = new Dictionary<string, List<GattCharacteristic>>();
-
         }
 
         public async Task Disconnect()
@@ -48,29 +47,38 @@ namespace ParrotMiniDroneControle
         {
             var characteristicList = Characteristics[service.ToString()];
             var firstOrDefault = characteristicList.FirstOrDefault(c => c.Uuid == characteristicGuid);
-            
+
             var buffer = data.GetCommandBytes().AsBuffer();
             var status = await firstOrDefault.WriteValueAsync(buffer, GattWriteOption.WriteWithoutResponse);
-           
+
             Debug.WriteLine(status.ToString());
         }
 
         public void ReadData()
         {
-            
         }
 
         public async Task Initialize()
         {
-            var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_A00));
+            var devices =
+                await
+                    DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_A00));
             DeviceInformations.Add(devices[0]);
-            devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_B00));
+            devices =
+                await
+                    DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_B00));
             DeviceInformations.Add(devices[0]);
-            devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_C00));
+            devices =
+                await
+                    DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_C00));
             DeviceInformations.Add(devices[0]);
-            devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_D21));
+            devices =
+                await
+                    DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_D21));
             DeviceInformations.Add(devices[0]);
-            devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_D51));
+            devices =
+                await
+                    DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(ParrotUuids.Service_D51));
             DeviceInformations.Add(devices[0]);
         }
 
@@ -107,7 +115,7 @@ namespace ParrotMiniDroneControle
             RegisterCharacteristic(ParrotUuids.Service_D21, ParrotUuids.Characteristic_D22);
             RegisterCharacteristic(ParrotUuids.Service_D21, ParrotUuids.Characteristic_D23);
             RegisterCharacteristic(ParrotUuids.Service_D21, ParrotUuids.Characteristic_D24);
-            
+
             // register characteristics D51
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D52);
             RegisterCharacteristic(ParrotUuids.Service_D51, ParrotUuids.Characteristic_D53);
@@ -118,7 +126,6 @@ namespace ParrotMiniDroneControle
             await RegisterEventhandling(ParrotUuids.Service_D51);
 
             //await InitChannelA1E();
-
         }
 
         public async Task InitChannelA1E()
@@ -126,14 +133,15 @@ namespace ParrotMiniDroneControle
             // get list of characteristics by serviceGuid
             var characteristicList = Characteristics[ParrotUuids.Service_A00.ToString()];
             // get characteristic
-            var characteristic = characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_A1E_InitCount1To20);
+            var characteristic =
+                characteristicList.FirstOrDefault(c => c.Uuid == ParrotUuids.Characteristic_A1E_InitCount1To20);
 
-            for (int i = 0; i < 20; i++)
+            for (var i = 0; i < 20; i++)
             {
-                byte[] value = new byte[3];
-                value[0] = (byte)(0x1);
-                value[1] = (byte)(i + 1);
-                value[2] = (byte)(i + 1);
+                var value = new byte[3];
+                value[0] = 0x1;
+                value[1] = (byte) (i + 1);
+                value[2] = (byte) (i + 1);
                 // write value async
                 await characteristic.WriteValueAsync(value.AsBuffer(), GattWriteOption.WriteWithoutResponse);
                 Task.WaitAll(Task.Delay(50));
@@ -146,9 +154,10 @@ namespace ParrotMiniDroneControle
             foreach (var characteristic in charachteristics)
             {
                 characteristic.ValueChanged += Characteristic_ValueChanged;
-                await characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                await
+                    characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                        GattClientCharacteristicConfigurationDescriptorValue.Notify);
             }
-
         }
 
         private async Task DeregisterEventhandling(Guid serviceUuid)
@@ -157,15 +166,16 @@ namespace ParrotMiniDroneControle
             foreach (var characteristic in charachteristics)
             {
                 characteristic.ValueChanged -= Characteristic_ValueChanged;
-                await characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                await
+                    characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                        GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 await Task.Delay(50);
             }
-
         }
 
         private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            SomethingChanged?.Invoke(sender,args);
+            SomethingChanged?.Invoke(sender, args);
         }
 
         private void RegisterCharacteristic(Guid service_uuid, Guid characteristicUuid)
@@ -187,12 +197,9 @@ namespace ParrotMiniDroneControle
     {
         public CustomEventArgs(string s)
         {
-            msg = s;
+            Message = s;
         }
-        private string msg;
-        public string Message
-        {
-            get { return msg; }
-        }
+
+        public string Message { get; }
     }
 }

@@ -7,25 +7,30 @@ using Windows.System.Threading;
 namespace ParrotMiniDroneControle
 {
     /// <summary>
-    /// Refactored Version of the Drone Objekt
-    /// Contains properties and Methods to use more easily
+    ///     Refactored Version of the Drone Objekt
+    ///     Contains properties and Methods to use more easily
     /// </summary>
-    class Drone_New
+    internal class Drone_New
     {
-        public DroneState State { get; set; }
-        public DroneConnection Connection { get; }
-        public EventHandler<CustomEventArgs> SomethingChanged;
         private short pitch;
         private short roll;
+        public EventHandler<CustomEventArgs> SomethingChanged;
+
+        private int ticks;
         private short up;
         private short yaw;
+        public Log log;
 
         public Drone_New()
         {
             Connection = new DroneConnection();
+            
+            log = Log.Instance;
         }
 
-        private int ticks = 0;
+        public DroneState State { get; set; }
+        public DroneConnection Connection { get; }
+
         private async void HandleTick(ThreadPoolTimer timer)
         {
             if (State == DroneState.Flying || State == DroneState.Hovering)
@@ -73,12 +78,12 @@ namespace ParrotMiniDroneControle
         {
             await Connection.SendSimpleCommand(Commands.Landing);
         }
-        
+
         public async Task EmergencyStopp()
         {
             await Connection.SendSimpleCommand(Commands.EmergencyShutdown);
         }
-        
+
         public async Task Move(Direction direction, short speed)
         {
             pitch = 0;
@@ -104,7 +109,7 @@ namespace ParrotMiniDroneControle
                     up = speed;
                     break;
                 case Direction.Down:
-                    up = (short)(0 - speed);
+                    up = (short) (0 - speed);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
@@ -150,16 +155,16 @@ namespace ParrotMiniDroneControle
 
         private void OnHandle_SomethingChanged(object o, GattValueChangedEventArgs args)
         {
-            var sender = (GattCharacteristic)o;
+            var sender = (GattCharacteristic) o;
             var senderData = sender.Uuid;
             var byteArray = args.CharacteristicValue.ToArray();
 
             if (senderData == ParrotUuids.Characteristic_B0E_DroneState)
             {
                 var incomingDataIsDroneState = (byteArray[0] == 4)
-                        && (byteArray[2] == 2)
-                        && (byteArray[3] == 3)
-                        && (byteArray[4] == 1);
+                                               && (byteArray[2] == 2)
+                                               && (byteArray[3] == 3)
+                                               && (byteArray[4] == 1);
 
                 if (incomingDataIsDroneState)
                 {
@@ -202,10 +207,6 @@ namespace ParrotMiniDroneControle
 
             var StateString = BitConverter.ToString(byteArray);
             SomethingChanged?.Invoke(this, new CustomEventArgs(senderData + ": " + StateString));
-
-
         }
-
-
     }
 }
