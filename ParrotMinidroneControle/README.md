@@ -6,3 +6,7 @@ It's my first bluetooth project and I had to figure out lots of stuff (especiall
 I recently switcht to UWP 10, because it has the best support for the drones so far.
 
 Total Rewrite Counter: 3
+
+
+pybluez wheels for python package on windows:
+https://github.com/pybluez/pybluez/issues/180 
